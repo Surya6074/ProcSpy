@@ -3,7 +3,7 @@
 int main(){
 
     list_all_process();
-    
+
     while (1) {
 
         CpuStats stats_before = get_cpu_stats();

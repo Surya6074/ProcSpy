@@ -40,8 +40,7 @@ int parse_line_value(const char *file_path, int target_line, const char *format,
         fprintf(stderr, "Failed to read line\n");
         return -1;
     }
-
-    if (sscanf(line_buffer, format, &output) != 1) {
+    if (sscanf(line_buffer, format, output) != 1) {
         fprintf(stderr, "Failed to parse data\n");
         return -1;
     }

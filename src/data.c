@@ -71,16 +71,28 @@ void list_all_process(){
     while ((entry = readdir(proc)) != NULL) {
         if (isdigit(entry->d_name[0])) {
             
-            printf("PID:  %s\n", entry->d_name);
-            // char file_path[512];
+            char file_path[512];
 
-            // snprintf(file_path, sizeof(file_path), "/proc/%s/status", entry->d_name);
+            snprintf(file_path, sizeof(file_path), "/proc/%s/status", entry->d_name);
 
-            // unsigned long long pid;
+            unsigned long long pid, ppid;
 
-            // if(parse_line_value(file_path, 6, "Pid:%llu", &pid) == 0){
-            //     printf("PID: %llu\n", pid);
-            // }
+            int threads;
+
+            if(parse_line_value(file_path, 6, "Pid:    %llu", &pid) == 0){
+                printf("--------------------\n");
+                printf("PID: %llu\n", pid);
+            }
+
+            if(parse_line_value(file_path, 7, "PPid:    %llu", &ppid) == 0){
+                printf("PPID: %llu\n", ppid);
+            }
+
+            if(parse_line_value(file_path, 37, "Threads:    %d", &threads) == 0){
+                printf("Threads: %d\n", threads);
+            }
+
+            printf("--------------------\n");
         }
     }
 
