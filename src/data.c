@@ -51,7 +51,38 @@ int get_memory_usage_stats(){
 
     unsigned long long mem_used = mem_total - mem_available;
 
-    printf("mem Usage : %.2f%% \n",compute_usage_percentage(mem_available, mem_total));
+    printf("mem Usage : %.2f%% \n", compute_usage_percentage(mem_used, mem_total));
 
+    printf("mem Free : %.2f%% \n", compute_usage_percentage(mem_available, mem_total));
+    
     return 0;
+}
+
+
+// list the all the Process id
+void list_all_process(){
+    DIR *proc = opendir("/proc");
+
+    if (proc == NULL) {
+        perror("opendir /proc");
+    }
+
+    struct dirent *entry;
+    while ((entry = readdir(proc)) != NULL) {
+        if (isdigit(entry->d_name[0])) {
+            
+            printf("PID:  %s\n", entry->d_name);
+            // char file_path[512];
+
+            // snprintf(file_path, sizeof(file_path), "/proc/%s/status", entry->d_name);
+
+            // unsigned long long pid;
+
+            // if(parse_line_value(file_path, 6, "Pid:%llu", &pid) == 0){
+            //     printf("PID: %llu\n", pid);
+            // }
+        }
+    }
+
+    closedir(proc);
 }

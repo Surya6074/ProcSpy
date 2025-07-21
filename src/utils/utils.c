@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "main.h"
 
 // Compute the Usage in Percentage
 double compute_usage_percentage(unsigned long long idle, unsigned long long total) {
@@ -29,4 +30,21 @@ int read_line_from_file(const char *file_path, char *buffer, size_t buffer_size,
 
     fclose(file);
     return -1;
+}
+
+
+int parse_line_value(const char *file_path, int target_line, const char *format, void *output){
+    char line_buffer[1024];
+
+    if (read_line_from_file(file_path, line_buffer, sizeof(line_buffer), target_line) != 0) {
+        fprintf(stderr, "Failed to read line\n");
+        return -1;
+    }
+
+    if (sscanf(line_buffer, format, &output) != 1) {
+        fprintf(stderr, "Failed to parse data\n");
+        return -1;
+    }
+
+    return 0;
 }

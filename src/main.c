@@ -2,6 +2,8 @@
 
 int main(){
 
+    list_all_process();
+    
     while (1) {
 
         CpuStats stats_before = get_cpu_stats();
@@ -18,8 +20,7 @@ int main(){
 
         printf("CPU Usage: %.2f%%\n", compute_usage_percentage( idle_delta, total_delta));
 
-
-        get_memory_usage_stats();
+         get_memory_usage_stats();
     }
 
     return 0;

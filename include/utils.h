@@ -11,6 +11,7 @@ double compute_usage_percentage(unsigned long long idle, unsigned long long tota
 // get Single Line content
 int read_line_from_file(const char *file_path, char *buffer, size_t buffer_size, int target_line);
 
-
+// parse Line data
+int parse_line_value(const char *file_path, int target_line, const char *format, void *output);
 
 #endif 
