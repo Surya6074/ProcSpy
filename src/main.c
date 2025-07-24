@@ -2,25 +2,30 @@
 
 int main(){
 
+    printf("===================================\n");
+    printf("         🕵️  ProcSpy Monitor         \n");
+    printf("===================================\n");
+    printf("  Monitoring system processes...\n");
+    printf("  Press Ctrl+C to exit.\n");
+    printf("===================================\n\n");
+    
     list_all_process();
 
+    printf("\n----------- CPU and Memory Stats -----------\n\n");
+
     while (1) {
-
-        CpuStats stats_before = get_cpu_stats();
+        struct cpu_stats before = get_cpu_stats();
         sleep(1);
-        CpuStats stats_after = get_cpu_stats();
+        struct cpu_stats after = get_cpu_stats();
 
-        unsigned long long total_delta = stats_after.total - stats_before.total;
-        unsigned long long idle_delta  = stats_after.idle - stats_before.idle;
+        double cpu_usage = usage_percent(&before, &after);
+        printf("CPU Usage   : %.2f%%\n", cpu_usage);
 
-        if (total_delta == 0) {
-            fprintf(stderr, "Warning: total delta is zero. Skipping...\n");
-            continue;
+        if (get_memory_usage_stats() < 0) {
+            fprintf(stderr, "Warning: Failed to get memory usage\n");
         }
 
-        printf("CPU Usage: %.2f%%\n", compute_usage_percentage( idle_delta, total_delta));
-
-         get_memory_usage_stats();
+        printf("\n");
     }
 
     return 0;

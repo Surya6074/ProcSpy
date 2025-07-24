@@ -1,15 +1,29 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-// C Standard Library Includes
+/* ===========================
+ * ProcSpy Version
+ * ===========================
+ */
+#define PROCSPY_VERSION "0.0.1"
+
+
+
+/* ===========================
+ * Standard library includes
+ * ===========================
+ */
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
-// Custom includes
+/* ===========================
+ * Project-specific includes
+ * ===========================
+ */
 #include "utils.h"
 #include "parser.h"
 #include "data.h"
 
-#endif 
+#endif /* MAIN_H */
