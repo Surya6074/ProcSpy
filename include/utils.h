@@ -41,4 +41,24 @@ int read_first_line(const char *path, char *buf, size_t size);
  */
 int parse_key_value(const char *file_path, const char *key, const char *format, void *output);
 
+/**
+ * @brief Generate a simple ASCII progress bar.
+ *
+ * Builds a progress bar string with '#' characters based on a percentage,
+ * filling the remaining width with spaces. The result is written into the
+ * caller-provided output buffer.
+ *
+ * Example usage:
+ *   char bar[21];
+ *   make_bar(65.5, 20, bar);
+ *   printf("[%s] %.2f%%\n", bar, 65.5);
+ *
+ * @param percent    Percentage to represent (0.0 to 100.0).
+ * @param bar_width  Total width of the bar (number of characters).
+ * @param output     Buffer to store the resulting null-terminated bar string.
+ *                   Must be at least (bar_width + 1) bytes.
+ */
+void make_bar(double percent, int bar_width, char *output);
+
+
 #endif /* UTILS_H */

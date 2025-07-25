@@ -39,11 +39,21 @@ double usage_percent(struct cpu_stats *before, struct cpu_stats *after);
  */
 
 /**
- * @brief Read and print memory usage from /proc/meminfo.
- *
- * @return 0 on success, -1 on failure.
+ * @brief Holds available memory and memory usage information from /proc/meminfo.
  */
-int get_memory_usage_stats(void);
+struct mem_stats {
+    double free; 
+    double usage;
+};
+
+/**
+ * @brief Read memory statistics from /proc/meminfo.
+ *
+ * Reads MemTotal and MemAvailable to calculate usage and free percentage.
+ *
+ * @return struct mem_stats containing usage and free percentage.
+ */
+struct mem_stats get_memory_usage_stats(void);
 
 /* ===========================
  * Process info and listing

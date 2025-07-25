@@ -3,8 +3,6 @@
 **ProcSpy** is a modern, interactive terminal-based Linux process viewer and logger with real-time analytics and a web dashboard.  
 It offers filtering, sorting, logging, and visualization of processes running on your system — all in one tool.
 
-> **Build it Together — Make it Better**
-
 ---
 
 ## 📦 Installation

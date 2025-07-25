@@ -54,3 +54,14 @@ int parse_key_value(const char *file_path, const char *key, const char *format, 
 
     return 0;
 }
+
+void make_bar(double percent, int bar_width, char *output) {
+    if (percent < 0) percent = 0;
+    if (percent > 100) percent = 100;
+
+    int hashes = (percent / 100.0) * bar_width;
+    int i = 0;
+    for (; i < hashes; ++i) output[i] = '#';
+    for (; i < bar_width; ++i) output[i] = ' ';
+    output[bar_width] = '\0';
+}

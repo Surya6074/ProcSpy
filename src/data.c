@@ -30,12 +30,14 @@ double usage_percent(struct cpu_stats *before, struct cpu_stats *after)
     return (1.0 - (double)idle / total) * 100.0;
 }
 
-int get_memory_usage_stats(void)
-{
+struct mem_stats get_memory_usage_stats(void)
+{    
+    struct mem_stats stats = {0};
+
     FILE *fp = fopen("/proc/meminfo", "r");
     if (!fp) {
-        perror("/proc/meminfo");
-        return -1;
+        perror("Could not open /proc/meminfo");
+        return stats;
     }
 
     char buf[256];
@@ -43,26 +45,29 @@ int get_memory_usage_stats(void)
     unsigned long long mem_available = 0;
 
     while (fgets(buf, sizeof(buf), fp)) {
-        if (sscanf(buf, "MemTotal: %llu kB", &mem_total) == 1)
-            continue;
-
-        if (sscanf(buf, "MemAvailable: %llu kB", &mem_available) == 1)
-            break;
+        if (strncmp(buf, "MemTotal:", 9) == 0) {
+            sscanf(buf + 9, "%llu", &mem_total);
+        } else if (strncmp(buf, "MemAvailable:", 13) == 0) {
+            sscanf(buf + 13, "%llu", &mem_available);
+        }
+        if (mem_total && mem_available) break;
     }
 
     fclose(fp);
 
-    if (mem_total == 0 || mem_available == 0) {
-        fprintf(stderr, "Error: Failed to parse MemTotal or MemAvailable\n");
-        return -1;
+    if (mem_total == 0) {
+        fprintf(stderr, "Failed to read MemTotal from /proc/meminfo\n");
+        return stats;
     }
+
+    if (mem_available > mem_total) mem_available = mem_total;
 
     unsigned long long mem_used = mem_total - mem_available;
 
-    printf("Memory Usage: %.2f%%\n", percent(mem_used, mem_total));
-    printf("Memory Free : %.2f%%\n", percent(mem_available, mem_total));
+    stats.free = percent(mem_available, mem_total);
+    stats.usage = percent(mem_used, mem_total);
 
-    return 0;
+    return stats;
 }
 
 void list_all_process(void)
