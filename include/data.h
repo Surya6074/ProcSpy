@@ -78,6 +78,13 @@ struct process_info {
 /**
  * @brief List all processes and print basic info.
  */
-void list_all_process(void);
+struct process_list *list_all_process(void);
+
+#define PROCESS_LIST_INITIAL_CAPACITY 128
+
+struct process_list {
+    struct process_info *data;
+    size_t count;
+};
 
 #endif

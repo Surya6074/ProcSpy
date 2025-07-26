@@ -1,6 +1,7 @@
 #include "ui.h"
 
 void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, double mem_free) {
+    werase(header);
     char cpu_bar[BAR_WIDTH + 1];
     char mem_usage_bar[BAR_WIDTH + 1];
     char mem_free_bar[BAR_WIDTH + 1];
@@ -9,7 +10,6 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
     make_bar(mem_usage, BAR_WIDTH, mem_usage_bar);
     make_bar(mem_free, BAR_WIDTH, mem_free_bar);
 
-    werase(header);
     box(header, 0, 0);
 
     wattron(header, COLOR_PAIR(1) | A_BOLD);
