@@ -11,19 +11,21 @@ void handle_winch() {
 
 int run_app(void);
 
-int main() {
-
-    run_app();
-
-    struct process_list *plist = list_all_process();
-    if (plist) {
-        for (size_t i = 0; i < plist->count; i++) {
-            printf("PID: %llu CMD: %s\n", plist->data[i].pid, plist->data[i].comm);
+int main(int argc, char *argv[]){
+    if (argc > 1) {
+        if (strcmp(argv[1], "--help") == 0) {
+            help();
+            return 0;
+        } else if (strcmp(argv[1], "--version") == 0) {
+            version();
+            return 0;
+        } else {
+            fprintf(stderr, "Unknown option: %s\n", argv[1]);
+            help();
+            return 1;
         }
-        free(plist->data);
-        free(plist);
     }
-    
+    run_app();
     return 0;
 }
 
@@ -76,6 +78,10 @@ int run_app(){
 
     time_t last_update = time(NULL);
 
+    int selected_index = 0;
+    int scroll_offset = 0;
+
+
     int running = 1;
 
     while (running) {
@@ -86,13 +92,10 @@ int run_app(){
                 running = 0;
                 break;
             case KEY_UP:
-                // handle scroll up
+                if (selected_index > 0) selected_index--;
                 break;
             case KEY_DOWN:
-                // handle scroll down
-                break;
-            case 10: // Enter key
-                // handle enter
+                selected_index++;
                 break;
             default:
                 break;
@@ -136,7 +139,7 @@ int run_app(){
             last_update = time(NULL);
         }
 
-        draw_body(body);
+       draw_body(body, selected_index, scroll_offset);
         wrefresh(body);
 
         draw_footer(footer, width, footer_text);

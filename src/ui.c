@@ -29,10 +29,58 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
     wrefresh(header);
 }
 
-void draw_body(WINDOW *body) {
+void draw_body(WINDOW *body, int selected_index, int scroll_offset) {
     werase(body);
     box(body, 0, 0);
-    mvwprintw(body, 1, 2, "Process list will appear here...");
+
+    struct process_list *plist = list_all_process();
+    if (!plist || plist->count == 0) {
+        mvwprintw(body, 1, 2, "No processes available.");
+        wrefresh(body);
+        return;
+    }
+
+    int body_height = getmaxy(body);
+    int max_display = body_height - 3;
+    int total = plist->count;
+
+    if (selected_index >= total)
+        selected_index = total - 1;
+    if (selected_index < 0)
+        selected_index = 0;
+
+    // Adjust scroll offset
+    if (selected_index < scroll_offset)
+        scroll_offset = selected_index;
+    else if (selected_index >= scroll_offset + max_display)
+        scroll_offset = selected_index - max_display + 1;
+
+    // Draw header
+    wattron(body, A_BOLD | COLOR_PAIR(2));
+    mvwprintw(body, 1, 1,
+        "%-8s %-8s %-5s %-5s %-5s %-5s %-10s %-10s %-10s %-20s",
+        "PID", "PPID", "THR", "STAT", "PRI", "NI", "VmSize", "VmRSS", "USER", "CMD");
+    wattroff(body, A_BOLD | COLOR_PAIR(2));
+
+    for (int i = 0; i < max_display && (i + scroll_offset) < total; i++) {
+        int index = i + scroll_offset;
+        struct process_info *p = &plist->data[index];
+
+        if (index == selected_index)
+            wattron(body, A_REVERSE);
+
+        mvwprintw(body, i + 2, 1,
+            "%-8llu %-8llu %-5d %-5s %-5d %-5d %-10lu %-10lu %-10s %-20s",
+            p->pid, p->ppid, p->threads, p->state,
+            p->priority, p->nice, p->vm_size, p->vm_rss,
+            p->username, p->comm);
+
+        if (index == selected_index)
+            wattroff(body, A_REVERSE);
+    }
+
+    free(plist->data);
+    free(plist);
     wrefresh(body);
 }
 

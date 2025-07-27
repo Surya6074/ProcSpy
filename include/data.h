@@ -3,6 +3,11 @@
 
 #include <dirent.h>
 #include <ctype.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <pwd.h>
+#include <sys/types.h>
+#include <time.h>
 
 /* ===========================
  * CPU usage data and helpers
@@ -73,6 +78,12 @@ struct process_info {
     unsigned long vm_size;
     unsigned long vm_rss;
     char comm[1024];
+    uid_t uid;
+    char username[32];
+    int priority;
+    int nice;
+    time_t start_time;
+    double cpu_time_sec;
 };
 
 /**
@@ -87,4 +98,8 @@ struct process_list {
     size_t count;
 };
 
+
+void help(void);
+
+void version(void);
 #endif

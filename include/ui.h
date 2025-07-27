@@ -26,7 +26,7 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
  *
  * This function renders the Body For listing all the Process.
  */
-void draw_body(WINDOW *body);
+void draw_body(WINDOW *body, int selected_index, int scroll_offset);
 
 /**
  * @brief draw_footer - Draw the Footer section of the UI window.

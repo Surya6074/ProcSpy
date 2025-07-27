@@ -1,5 +1,9 @@
 #include "main.h"
 
+void version(void) {
+    printf("ProcSpy Version 1.0.0\n");
+}
+
 struct cpu_stats get_cpu_stats(void)
 {
     struct cpu_stats stats = {0};
@@ -69,7 +73,6 @@ struct mem_stats get_memory_usage_stats(void)
 
     return stats;
 }
-
 struct process_list *list_all_process(void) {
     DIR *proc = opendir("/proc");
     if (!proc) {
@@ -88,41 +91,83 @@ struct process_list *list_all_process(void) {
         return NULL;
     }
 
+    // Get system constants
+    long clk_tck = sysconf(_SC_CLK_TCK);
+
+    // Get boot time from /proc/stat
+    FILE *bootf = fopen("/proc/stat", "r");
+    time_t boot_time = 0;
+    if (bootf) {
+        char line[256];
+        while (fgets(line, sizeof(line), bootf)) {
+            if (sscanf(line, "btime %ld", &boot_time) == 1)
+                break;
+        }
+        fclose(bootf);
+    }
+
     while ((entry = readdir(proc)) != NULL) {
-        // Skip non-numeric entries
-        if (!isdigit(entry->d_name[0]))
-            continue;
+        if (!isdigit(entry->d_name[0])) continue;
 
         struct process_info p = {0};
+        char path[512];
 
-        char status_path[512];
-        snprintf(status_path, sizeof(status_path), "/proc/%s/status", entry->d_name);
+        // Read /proc/[pid]/status
+        snprintf(path, sizeof(path), "/proc/%s/status", entry->d_name);
+        if (parse_key_value(path, "Pid:",    "Pid:\t%llu",   &p.pid)    != 0) continue;
+        if (parse_key_value(path, "PPid:",   "PPid:\t%llu",  &p.ppid)   != 0) continue;
+        if (parse_key_value(path, "Threads:","Threads:\t%d", &p.threads)!= 0) continue;
+        if (parse_key_value(path, "State:",  "State:\t%s",   &p.state)  != 0) continue;
+        if (parse_key_value(path, "VmSize:", "VmSize:\t%lu kB", &p.vm_size) != 0) continue;
+        if (parse_key_value(path, "VmRSS:",  "VmRSS:\t%lu kB", &p.vm_rss)  != 0) continue;
+        if (parse_key_value(path, "Uid:", "Uid:\t%u", &p.uid) != 0) continue;
 
-        // Parse all required fields
-        if (parse_key_value(status_path, "Pid:",    "Pid:\t%llu",   &p.pid)    != 0) continue;
-        if (parse_key_value(status_path, "PPid:",   "PPid:\t%llu",  &p.ppid)   != 0) continue;
-        if (parse_key_value(status_path, "Threads:","Threads:\t%d", &p.threads)!= 0) continue;
-        if (parse_key_value(status_path, "State:",  "State:\t%s",   &p.state)  != 0) continue;
-        if (parse_key_value(status_path, "VmSize:", "VmSize:\t%lu kB", &p.vm_size) != 0) continue;
-        if (parse_key_value(status_path, "VmRSS:",  "VmRSS:\t%lu kB", &p.vm_rss)  != 0) continue;
+        // Convert UID to username
+        struct passwd *pw = getpwuid(p.uid);
+        strncpy(p.username, pw ? pw->pw_name : "unknown", sizeof(p.username));
 
         // Read command name
-        char comm_path[512];
-        snprintf(comm_path, sizeof(comm_path), "/proc/%s/comm", entry->d_name);
-
-        FILE *f = fopen(comm_path, "r");
+        snprintf(path, sizeof(path), "/proc/%s/comm", entry->d_name);
+        FILE *f = fopen(path, "r");
         if (f && fgets(p.comm, sizeof(p.comm), f)) {
             size_t len = strlen(p.comm);
-            if (len > 0 && p.comm[len - 1] == '\n') {
+            if (len > 0 && p.comm[len - 1] == '\n')
                 p.comm[len - 1] = '\0';
-            }
             fclose(f);
         } else {
             strncpy(p.comm, "N/A", sizeof(p.comm));
             if (f) fclose(f);
         }
 
-        // Resize array if needed
+        // Read /proc/[pid]/stat for priority, nice, starttime, utime+stime
+        snprintf(path, sizeof(path), "/proc/%s/stat", entry->d_name);
+        FILE *statf = fopen(path, "r");
+        if (statf) {
+            unsigned long utime = 0, stime = 0;
+            unsigned long long starttime = 0;
+            int prio = 0, nice = 0;
+            char dummy[1024], comm[256];
+            int dummy_int;
+            fscanf(statf, "%d %s", &dummy_int, comm); // pid and comm
+
+            for (int i = 0; i < 11; i++) fscanf(statf, "%s", dummy); // skip to 14
+
+            fscanf(statf, "%lu %lu", &utime, &stime);     // 14, 15
+            fscanf(statf, "%s %s", dummy, dummy);         // 16, 17
+            fscanf(statf, "%d %d", &prio, &nice);         // 18, 19
+
+            for (int i = 0; i < 2; i++) fscanf(statf, "%s", dummy); // 20, 21
+            fscanf(statf, "%llu", &starttime);            // 22
+
+            fclose(statf);
+
+            p.priority = prio;
+            p.nice = nice;
+            p.cpu_time_sec = (utime + stime) / (double)clk_tck;
+            p.start_time = boot_time + (starttime / clk_tck);
+        }
+
+        // Store
         if (count >= capacity) {
             capacity *= 2;
             struct process_info *tmp = realloc(processes, capacity * sizeof(*tmp));
@@ -134,7 +179,6 @@ struct process_list *list_all_process(void) {
             }
             processes = tmp;
         }
-
         processes[count++] = p;
     }
 
@@ -150,4 +194,20 @@ struct process_list *list_all_process(void) {
     result->data = processes;
     result->count = count;
     return result;
+}
+
+void help(void) {
+    printf("\n\033[1;36mProcess Table Column Descriptions\033[0m\n\n");
+    printf(" %-10s : %s\n", "PID",     "Process ID — Unique ID for each process.");
+    printf(" %-10s : %s\n", "PPID",    "Parent PID — ID of the parent process.");
+    printf(" %-10s : %s\n", "THR",     "Threads — Number of threads the process uses.");
+    printf(" %-10s : %s\n", "STAT",    "State — Process state (R=Running, S=Sleeping, Z=Zombie, etc.).");
+    printf(" %-10s : %s\n", "PRI",     "Priority — Kernel scheduling priority.");
+    printf(" %-10s : %s\n", "NI",      "Nice — User-defined priority (-20 to 19, lower = higher priority).");
+    printf(" %-10s : %s\n", "VmSize",  "Virtual Memory — Total virtual memory used (in KB).");
+    printf(" %-10s : %s\n", "VmRSS",   "Resident Set — Actual physical memory used (in KB).");
+    printf(" %-10s : %s\n", "USER",    "Username — Owner of the process.");
+    printf(" %-10s : %s\n", "CMD",     "Command — Command or executable that launched the process.");
+
+    printf("\nUse arrow keys to navigate, 'q' to quit.\n");
 }
