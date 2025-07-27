@@ -23,10 +23,13 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
  * @brief draw_body - Draw the body section of the UI window.
  * 
  * @param body: Pointer to the ncurses WINDOW for the Body.
+ * @param selected_index: selected Index.
+ * @param scroll_offset: Scroll Offset.
+ * @param pid: Get the Current Pid is Selected.
  *
  * This function renders the Body For listing all the Process.
  */
-void draw_body(WINDOW *body, int selected_index, int scroll_offset);
+void draw_body(WINDOW *body, int selected_index, int scroll_offset, unsigned long long *pid);
 
 /**
  * @brief draw_footer - Draw the Footer section of the UI window.
@@ -38,5 +41,7 @@ void draw_body(WINDOW *body, int selected_index, int scroll_offset);
  * This function renders the Footer For showing the Shorcuts for the Procspy.
  */
 void draw_footer(WINDOW *footer, int width, const char *footer_text);
+
+void draw_process_details(WINDOW *body, unsigned long long pid);
 
 #endif

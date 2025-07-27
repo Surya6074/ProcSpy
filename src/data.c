@@ -73,7 +73,7 @@ struct mem_stats get_memory_usage_stats(void)
 
     return stats;
 }
-struct process_list *list_all_process(void) {
+struct process_list *list_all_process(unsigned long long pid_filter) {
     DIR *proc = opendir("/proc");
     if (!proc) {
         perror("opendir /proc");
@@ -109,12 +109,16 @@ struct process_list *list_all_process(void) {
     while ((entry = readdir(proc)) != NULL) {
         if (!isdigit(entry->d_name[0])) continue;
 
+        unsigned long long pid = strtoull(entry->d_name, NULL, 10);
+        if (pid_filter && pid != pid_filter) continue;
+
         struct process_info p = {0};
+        p.pid = pid;
+
         char path[512];
 
-        // Read /proc/[pid]/status
-        snprintf(path, sizeof(path), "/proc/%s/status", entry->d_name);
-        if (parse_key_value(path, "Pid:",    "Pid:\t%llu",   &p.pid)    != 0) continue;
+        // /proc/[pid]/status
+        snprintf(path, sizeof(path), "/proc/%llu/status", pid);
         if (parse_key_value(path, "PPid:",   "PPid:\t%llu",  &p.ppid)   != 0) continue;
         if (parse_key_value(path, "Threads:","Threads:\t%d", &p.threads)!= 0) continue;
         if (parse_key_value(path, "State:",  "State:\t%s",   &p.state)  != 0) continue;
@@ -122,12 +126,11 @@ struct process_list *list_all_process(void) {
         if (parse_key_value(path, "VmRSS:",  "VmRSS:\t%lu kB", &p.vm_rss)  != 0) continue;
         if (parse_key_value(path, "Uid:", "Uid:\t%u", &p.uid) != 0) continue;
 
-        // Convert UID to username
         struct passwd *pw = getpwuid(p.uid);
         strncpy(p.username, pw ? pw->pw_name : "unknown", sizeof(p.username));
 
-        // Read command name
-        snprintf(path, sizeof(path), "/proc/%s/comm", entry->d_name);
+        // /proc/[pid]/comm
+        snprintf(path, sizeof(path), "/proc/%llu/comm", pid);
         FILE *f = fopen(path, "r");
         if (f && fgets(p.comm, sizeof(p.comm), f)) {
             size_t len = strlen(p.comm);
@@ -139,8 +142,8 @@ struct process_list *list_all_process(void) {
             if (f) fclose(f);
         }
 
-        // Read /proc/[pid]/stat for priority, nice, starttime, utime+stime
-        snprintf(path, sizeof(path), "/proc/%s/stat", entry->d_name);
+        // /proc/[pid]/stat
+        snprintf(path, sizeof(path), "/proc/%llu/stat", pid);
         FILE *statf = fopen(path, "r");
         if (statf) {
             unsigned long utime = 0, stime = 0;
@@ -148,14 +151,13 @@ struct process_list *list_all_process(void) {
             int prio = 0, nice = 0;
             char dummy[1024], comm[256];
             int dummy_int;
-            fscanf(statf, "%d %s", &dummy_int, comm); // pid and comm
+
+            fscanf(statf, "%d %s", &dummy_int, comm); // skip pid & comm
 
             for (int i = 0; i < 11; i++) fscanf(statf, "%s", dummy); // skip to 14
-
             fscanf(statf, "%lu %lu", &utime, &stime);     // 14, 15
             fscanf(statf, "%s %s", dummy, dummy);         // 16, 17
             fscanf(statf, "%d %d", &prio, &nice);         // 18, 19
-
             for (int i = 0; i < 2; i++) fscanf(statf, "%s", dummy); // 20, 21
             fscanf(statf, "%llu", &starttime);            // 22
 
@@ -179,10 +181,18 @@ struct process_list *list_all_process(void) {
             }
             processes = tmp;
         }
+
         processes[count++] = p;
+
+        if (pid_filter) break;
     }
 
     closedir(proc);
+
+    if (pid_filter && count == 0) {
+        free(processes);
+        return NULL;
+    }
 
     struct process_list *result = malloc(sizeof(*result));
     if (!result) {
@@ -210,4 +220,65 @@ void help(void) {
     printf(" %-10s : %s\n", "CMD",     "Command — Command or executable that launched the process.");
 
     printf("\nUse arrow keys to navigate, 'q' to quit.\n");
+}
+
+int logger(const char *filename) {
+
+    FILE *file = fopen(filename, "a");
+    if (file == NULL) {
+        perror("Error opening log file");
+        return 1;
+    }
+
+    time_t now = time(NULL);
+    char *timestamp = ctime(&now);
+    if (timestamp) {
+        timestamp[strcspn(timestamp, "\n")] = '\0';
+        fprintf(file, "\n===== ProcSpy Snapshot - %s =====\n", timestamp);
+    }
+
+    // CPU usage calculation
+    struct cpu_stats before = get_cpu_stats();
+    sleep(1);
+    struct cpu_stats after = get_cpu_stats();
+    double cpu_usage = usage_percent(&before, &after);
+
+    // Memory usage
+    struct mem_stats mem = get_memory_usage_stats();
+
+    fprintf(file, "CPU Usage: %.2f%%\n", cpu_usage);
+    fprintf(file, "Memory Usage: %.2f%%, Free: %.2f MB\n\n", mem.usage, mem.free);
+
+    // Get all processes
+    struct process_list *plist = list_all_process(0);
+    if (!plist || plist->count == 0) {
+        fprintf(file, "No processes found.\n");
+        if (plist) {
+            free(plist->data);
+            free(plist);
+        }
+        fclose(file);
+        return -1;
+    }
+
+    // Print table headers
+    fprintf(file,
+        "%-8s %-8s %-5s %-5s %-5s %-5s %-10s %-10s %-10s %-20s\n",
+        "PID", "PPID", "THR", "STAT", "PRI", "NI", "VmSize", "VmRSS", "USER", "CMD");
+
+    // Print process data
+    for (size_t i = 0; i < plist->count; ++i) {
+        struct process_info *p = &plist->data[i];
+        fprintf(file,
+            "%-8llu %-8llu %-5d %-5s %-5d %-5d %-10lu %-10lu %-10s %-20s\n",
+            p->pid, p->ppid, p->threads, p->state,
+            p->priority, p->nice, p->vm_size, p->vm_rss,
+            p->username, p->comm);
+    }
+
+    free(plist->data);
+    free(plist);
+    fclose(file);
+
+    return 0;
 }

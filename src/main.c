@@ -19,6 +19,19 @@ int main(int argc, char *argv[]){
         } else if (strcmp(argv[1], "--version") == 0) {
             version();
             return 0;
+        } else if (strcmp(argv[1], "--log") == 0) {
+            const char *logfile = "procspy.log";
+
+            if (argc > 2 && argv[2] != NULL && argv[2][0] != '-') {
+                logfile = argv[2];
+            }
+
+            if (logger(logfile) == 0) {
+                printf("Processes logged successfully to: %s\n", logfile);
+            } else {
+                fprintf(stderr, "Failed to write log to: %s\n", logfile);
+            }
+            return 0;
         } else {
             fprintf(stderr, "Unknown option: %s\n", argv[1]);
             help();
@@ -81,6 +94,8 @@ int run_app(){
     int selected_index = 0;
     int scroll_offset = 0;
 
+    unsigned long long current_pid = 0;
+    int detailed_view = 0;
 
     int running = 1;
 
@@ -96,6 +111,15 @@ int run_app(){
                 break;
             case KEY_DOWN:
                 selected_index++;
+                break;
+            case 10:
+                detailed_view = 1;
+                break;
+            case KEY_BACKSPACE:
+            case 127: 
+            case 8:  
+                detailed_view = 0;
+                current_pid = 0;
                 break;
             default:
                 break;
@@ -139,8 +163,15 @@ int run_app(){
             last_update = time(NULL);
         }
 
-       draw_body(body, selected_index, scroll_offset);
-        wrefresh(body);
+        if(detailed_view){
+            draw_process_details(body, current_pid);
+            wrefresh(body);
+        }else{
+            werase(body);
+            box(body, 0, 0);
+            draw_body(body, selected_index, scroll_offset, &current_pid);
+            wrefresh(body);
+        }
 
         draw_footer(footer, width, footer_text);
         wrefresh(footer);

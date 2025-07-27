@@ -88,8 +88,10 @@ struct process_info {
 
 /**
  * @brief List all processes and print basic info.
+ * 
+ * @param pid_filter: to get the perfect Pid data 
  */
-struct process_list *list_all_process(void);
+struct process_list *list_all_process(unsigned long long pid_filter) ;
 
 #define PROCESS_LIST_INITIAL_CAPACITY 128
 
@@ -102,4 +104,8 @@ struct process_list {
 void help(void);
 
 void version(void);
+
+
+int logger(const char *filename);
+
 #endif
