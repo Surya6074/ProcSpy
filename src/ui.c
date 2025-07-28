@@ -28,11 +28,13 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
 
     wrefresh(header);
 }
-void draw_body(WINDOW *body, int selected_index, int scroll_offset, int horizontal_offset, unsigned long long *pid) {
+void draw_body(WINDOW *body, int selected_index, int scroll_offset, int horizontal_offset, SortMode current_sort,unsigned long long *pid) {
     werase(body);
     box(body, 0, 0);
 
     struct process_list *plist = list_all_process(0);
+    sort_process_list(plist, current_sort);
+
     if (!plist || plist->count == 0) {
         mvwprintw(body, 1, 2, "No processes available.");
         wrefresh(body);
@@ -116,6 +118,7 @@ void draw_footer(WINDOW *footer, int width, const char *footer_text) {
 
     wrefresh(footer);
 }
+
 void draw_process_details(WINDOW *body, unsigned long long pid) {
     werase(body);
     box(body, 0, 0);
@@ -175,7 +178,9 @@ void draw_process_details(WINDOW *body, unsigned long long pid) {
     mvwprintw(body, 10, 2, "VmRSS     : %lu MB", vm_rss_mb);
     mvwprintw(body, 11, 2, "Username  : %s",   truncated_user);
     mvwprintw(body, 12, 2, "Command   : %s",  truncated_cmd);
-    mvwprintw(body, 13, 2, "Time      : %s",  time_buf);
+    mvwprintw(body, 13, 2, "CPU       : %-2.1f%%", p->cpu_usage);
+    mvwprintw(body, 14, 2, "Memory    : %-2.1f%%", p->mem_usage_percent);
+    mvwprintw(body, 15, 2, "Time      : %s",  time_buf);
 
     mvwprintw(body, getmaxy(body) - 2, 2, "[Press any key to return]");
     wrefresh(body);

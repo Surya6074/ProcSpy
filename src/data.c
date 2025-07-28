@@ -229,20 +229,56 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
 }
 
 void help(void) {
-    printf("\n\033[1;36mProcess Table Column Descriptions\033[0m\n\n");
-    printf(" %-10s : %s\n", "PID",     "Process ID — Unique ID for each process.");
-    printf(" %-10s : %s\n", "PPID",    "Parent PID — ID of the parent process.");
-    printf(" %-10s : %s\n", "THR",     "Threads — Number of threads the process uses.");
-    printf(" %-10s : %s\n", "STAT",    "State — Process state (R=Running, S=Sleeping, Z=Zombie, etc.).");
-    printf(" %-10s : %s\n", "PRI",     "Priority — Kernel scheduling priority.");
-    printf(" %-10s : %s\n", "NI",      "Nice — User-defined priority (-20 to 19, lower = higher priority).");
-    printf(" %-10s : %s\n", "VmSize",  "Virtual Memory — Total virtual memory used (in KB).");
-    printf(" %-10s : %s\n", "VmRSS",   "Resident Set — Actual physical memory used (in KB).");
-    printf(" %-10s : %s\n", "USER",    "Username — Owner of the process.");
-    printf(" %-10s : %s\n", "CMD",     "Command — Command or executable that launched the process.");
+    printf("\n\033[1;36m┌───────────────────────────────────────────────────────────┐\033[0m\n");
+    printf(  "\033[1;36m│                  🔍 ProcSpy - Process Monitor              │\033[0m\n");
+    printf(  "\033[1;36m└───────────────────────────────────────────────────────────┘\033[0m\n");
+    printf("  A terminal-based, real-time Linux process viewer with\n");
+    printf("  sortable columns and detailed resource statistics.\n");
 
-    printf("\nUse arrow keys to navigate, 'q' to quit.\n");
+    printf("\n\033[1;33m🛠️  Usage:\033[0m\n");
+    printf("  procspy [--help] [--version] [--log [filename]]\n");
+
+    printf("\n\033[1;33m🚩 Flags:\033[0m\n");
+    printf("  --help        Show this help screen and exit.\n");
+    printf("  --version     Display application version.\n");
+    printf("  --log [file]  Save current process list to a file (default: procspy.log).\n");
+
+    printf("\n\033[1;36m📋 Process Table Columns:\033[0m\n");
+    printf("  %-10s : %s\n", "PID",     "Process ID.");
+    printf("  %-10s : %s\n", "PPID",    "Parent Process ID.");
+    printf("  %-10s : %s\n", "USER",    "Username (owner of the process).");
+    printf("  %-10s : %s\n", "CMD",     "Command or executable.");
+    printf("  %-10s : %s\n", "THR",     "Thread count.");
+    printf("  %-10s : %s\n", "STAT",    "Process state (e.g. R, S, Z).");
+    printf("  %-10s : %s\n", "PRI",     "Priority (scheduling).");
+    printf("  %-10s : %s\n", "NI",      "Nice value (user-set priority).");
+    printf("  %-10s : %s\n", "CPU%%",    "CPU usage (per-process).");
+    printf("  %-10s : %s\n", "MEM%%",    "Memory usage as percent of total.");
+    printf("  %-10s : %s\n", "TIME",    "Total CPU time consumed.");
+    printf("  %-10s : %s\n", "VmSize",  "Total virtual memory (in KB).");
+    printf("  %-10s : %s\n", "VmRSS",   "Resident memory (RAM used, in KB).");
+
+    printf("\n\033[1;33m⌨️ Controls:\033[0m\n");
+    printf("  Arrow Keys   Move selection (↑↓) or scroll (←→).\n");
+    printf("  Enter        Open detailed view for selected process.\n");
+    printf("  Backspace    Return to the process list from details.\n");
+    printf("  Q            Quit the application.\n");
+
+    printf("\n\033[1;35m↕ Sorting:\033[0m\n");
+    printf("  Press \033[1mF1\033[0m followed by a letter to sort the table:\n");
+    printf("    \033[1;32mp\033[0m  Sort by PID\n");
+    printf("    \033[1;32mc\033[0m  Sort by CPU usage (%%)\n");
+    printf("    \033[1;32mm\033[0m  Sort by memory usage (%%)\n");
+    printf("    \033[1;32mt\033[0m  Sort by total CPU time\n");
+    printf("    \033[1;32mn\033[0m  Sort by command name\n");
+    printf("  \033[3mPressing the same key again will re-sort.\033[0m\n");
+
+    printf("\n\033[1;34m💡 Tip:\033[0m Resize the terminal window if the layout breaks.\n");
+    printf("        Add `--log` to dump process info for analysis.\n");
+
+    printf("\n\033[1;36m─────────────────────────────────────────────────────────────\033[0m\n\n");
 }
+
 
 int logger(const char *filename) {
 
@@ -320,4 +356,46 @@ int logger(const char *filename) {
     fclose(file);
 
     return 0;
+}
+int compare_by_pid(const void *a, const void *b) {
+    return ((struct process_info *)a)->pid - ((struct process_info *)b)->pid;
+}
+
+int compare_by_cpu(const void *a, const void *b) {
+    double diff = ((struct process_info *)b)->cpu_usage - ((struct process_info *)a)->cpu_usage;
+    return (diff > 0) - (diff < 0);
+}
+
+int compare_by_mem(const void *a, const void *b) {
+    double diff = ((struct process_info *)b)->mem_usage_percent - ((struct process_info *)a)->mem_usage_percent;
+    return (diff > 0) - (diff < 0);
+}
+
+int compare_by_time(const void *a, const void *b) {
+    return ((struct process_info *)b)->cpu_time_sec - ((struct process_info *)a)->cpu_time_sec;
+}
+
+int compare_by_name(const void *a, const void *b) {
+    return strncmp(((struct process_info *)a)->comm, ((struct process_info *)b)->comm, 16);
+}
+
+void sort_process_list(struct process_list *plist, SortMode mode) {
+    switch (mode) {
+        case SORT_BY_CPU:
+            qsort(plist->data, plist->count, sizeof(struct process_info), compare_by_cpu);
+            break;
+        case SORT_BY_MEM:
+            qsort(plist->data, plist->count, sizeof(struct process_info), compare_by_mem);
+            break;
+        case SORT_BY_TIME:
+            qsort(plist->data, plist->count, sizeof(struct process_info), compare_by_time);
+            break;
+        case SORT_BY_NAME:
+            qsort(plist->data, plist->count, sizeof(struct process_info), compare_by_name);
+            break;
+        case SORT_BY_PID:
+        default:
+            qsort(plist->data, plist->count, sizeof(struct process_info), compare_by_pid);
+            break;
+    }
 }

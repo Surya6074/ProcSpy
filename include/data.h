@@ -110,4 +110,25 @@ void version(void);
 
 int logger(const char *filename);
 
+
+typedef enum {
+    SORT_BY_PID,
+    SORT_BY_CPU,
+    SORT_BY_MEM,
+    SORT_BY_TIME,
+    SORT_BY_NAME
+} SortMode;
+
+int compare_by_pid(const void *a, const void *b);
+
+int compare_by_cpu(const void *a, const void *b);
+
+int compare_by_mem(const void *a, const void *b);
+
+int compare_by_time(const void *a, const void *b);
+
+int compare_by_name(const void *a, const void *b);
+
+void sort_process_list(struct process_list *plist, SortMode mode);
+
 #endif

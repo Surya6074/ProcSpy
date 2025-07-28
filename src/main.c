@@ -98,6 +98,9 @@ int run_app(){
     unsigned long long current_pid = 0;
     int detailed_view = 0;
 
+    SortMode current_sort = SORT_BY_PID;
+    int sort_mode_pending = 0;
+    
     int running = 1;
 
     while (running) {
@@ -107,12 +110,15 @@ int run_app(){
             case 'Q':
                 running = 0;
                 break;
+
             case KEY_UP:
                 if (selected_index > 0) selected_index--;
                 break;
+
             case KEY_DOWN:
                 selected_index++;
                 break;
+
             case KEY_LEFT:
                 if (horizontal_offset >= 2)
                     horizontal_offset -= 2;
@@ -124,14 +130,41 @@ int run_app(){
                 detailed_view = 1;
                 break;
             case KEY_BACKSPACE:
-            case 127: 
-            case 8:  
+            case 127:
+            case 8:
                 detailed_view = 0;
                 current_pid = 0;
                 break;
+            case KEY_F(1):
+                sort_mode_pending = 1;
+                break;
             default:
+                if (sort_mode_pending) {
+                    sort_mode_pending = 0;
+
+                    switch (ch) {
+                        case 'p':
+                            current_sort = SORT_BY_PID;
+                            break;
+                        case 'c':
+                            current_sort = SORT_BY_CPU;
+                            break;
+                        case 'm':
+                            current_sort = SORT_BY_MEM;
+                            break;
+                        case 't':
+                            current_sort = SORT_BY_TIME;
+                            break;
+                        case 'n':
+                            current_sort = SORT_BY_NAME;
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 break;
         }
+
 
         if (resized) {
             resized = 0;
@@ -177,7 +210,7 @@ int run_app(){
         }else{
             werase(body);
             box(body, 0, 0);
-            draw_body(body, selected_index, scroll_offset, horizontal_offset, &current_pid);
+            draw_body(body, selected_index, scroll_offset, horizontal_offset, current_sort, &current_pid);
             wrefresh(body);
         }
 
