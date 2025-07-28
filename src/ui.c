@@ -28,8 +28,7 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
 
     wrefresh(header);
 }
-
-void draw_body(WINDOW *body, int selected_index, int scroll_offset, unsigned long long *pid) {
+void draw_body(WINDOW *body, int selected_index, int scroll_offset, int horizontal_offset, unsigned long long *pid) {
     werase(body);
     box(body, 0, 0);
 
@@ -41,15 +40,14 @@ void draw_body(WINDOW *body, int selected_index, int scroll_offset, unsigned lon
     }
 
     int body_height = getmaxy(body);
+    int body_width = getmaxx(body);
     int max_display = body_height - 3;
     int total = plist->count;
 
-    if (selected_index >= total)
-        selected_index = total - 1;
-    if (selected_index < 0)
-        selected_index = 0;
+    if (selected_index >= total) selected_index = total - 1;
+    if (selected_index < 0) selected_index = 0;
 
-    // Adjust scroll offset
+    // Adjust scroll
     if (selected_index < scroll_offset)
         scroll_offset = selected_index;
     else if (selected_index >= scroll_offset + max_display)
@@ -57,25 +55,46 @@ void draw_body(WINDOW *body, int selected_index, int scroll_offset, unsigned lon
 
     // Draw header
     wattron(body, A_BOLD | COLOR_PAIR(2));
-    mvwprintw(body, 1, 1,
-        "%-8s %-8s %-5s %-5s %-5s %-5s %-10s %-10s %-10s %-20s",
-        "PID", "PPID", "THR", "STAT", "PRI", "NI", "VmSize", "VmRSS", "USER", "CMD");
+    const char *header = "PID      PPID     THR    S   PRI   NI   VMS(MB)     RSS(MB)      USER          CMD                       CPU%     MEM%     TIME";
+    mvwprintw(body, 1, 1, "%.*s", body_width - 2, header + horizontal_offset);
     wattroff(body, A_BOLD | COLOR_PAIR(2));
 
     for (int i = 0; i < max_display && (i + scroll_offset) < total; i++) {
         int index = i + scroll_offset;
         struct process_info *p = &plist->data[index];
 
-        if (index == selected_index){
+        if (index == selected_index) {
             *pid = p->pid;
             wattron(body, A_REVERSE);
         }
 
-        mvwprintw(body, i + 2, 1,
-            "%-8llu %-8llu %-5d %-5s %-5d %-5d %-10lu %-10lu %-10s %-20s",
+        // Format CPU time (MM:SS)
+        char time_buf[16];
+        time_t total_seconds = (time_t)p->cpu_time_sec;
+        snprintf(time_buf, sizeof(time_buf), "%02lu:%02lu",
+                 total_seconds / 60, total_seconds % 60);
+
+        // Convert KB to MB
+        unsigned long vm_size_mb = p->vm_size / 1024;
+        unsigned long vm_rss_mb  = p->vm_rss / 1024;
+
+        // Truncate user and cmd fields
+        char truncated_user[12];
+        char truncated_cmd[18];
+        snprintf(truncated_user, sizeof(truncated_user), "%-11.11s", p->username);
+        snprintf(truncated_cmd, sizeof(truncated_cmd), "%-17.17s", p->comm);
+
+        // Format the row
+        char line[512];
+        snprintf(line, sizeof(line),
+            "%-8llu %-8llu %-6d %-3s %-5d %-5d %-11lu %-11lu %-13s %-20s %8.1f%% %8.1f%% %8s",
             p->pid, p->ppid, p->threads, p->state,
-            p->priority, p->nice, p->vm_size, p->vm_rss,
-            p->username, p->comm);
+            p->priority, p->nice,
+            vm_size_mb, vm_rss_mb,
+            truncated_user, truncated_cmd,
+            p->cpu_usage, p->mem_usage_percent, time_buf);
+
+        mvwprintw(body, i + 2, 1, "%.*s", body_width - 2, line + horizontal_offset);
 
         if (index == selected_index)
             wattroff(body, A_REVERSE);
@@ -117,6 +136,22 @@ void draw_process_details(WINDOW *body, unsigned long long pid) {
         }
     }
 
+    // Format CPU time (MM:SS)
+    char time_buf[16];
+    time_t total_seconds = (time_t)p->cpu_time_sec;
+    snprintf(time_buf, sizeof(time_buf), "%02lu:%02lu",
+                total_seconds / 60, total_seconds % 60);
+
+    // Convert KB to MB
+    unsigned long vm_size_mb = p->vm_size / 1024;
+    unsigned long vm_rss_mb  = p->vm_rss / 1024;
+
+    // Truncate user and cmd fields
+    char truncated_user[12];
+    char truncated_cmd[18];
+    snprintf(truncated_user, sizeof(truncated_user), "%-11.11s", p->username);
+    snprintf(truncated_cmd, sizeof(truncated_cmd), "%-17.17s", p->comm);
+
     if (!p) {
         mvwprintw(body, 1, 2, "PID %llu not found.", pid);
         wrefresh(body);
@@ -136,10 +171,11 @@ void draw_process_details(WINDOW *body, unsigned long long pid) {
     mvwprintw(body, 6, 2, "State     : %s",   p->state);
     mvwprintw(body, 7, 2, "Priority  : %d",   p->priority);
     mvwprintw(body, 8, 2, "Nice      : %d",   p->nice);
-    mvwprintw(body, 9, 2, "VmSize    : %lu KB", p->vm_size);
-    mvwprintw(body, 10, 2, "VmRSS     : %lu KB", p->vm_rss);
-    mvwprintw(body, 11, 2, "Username  : %s",   p->username);
-    mvwprintw(body, 12, 2, "Command   : %s",   p->comm);
+    mvwprintw(body, 9, 2, "VmSize    : %lu MB", vm_size_mb);
+    mvwprintw(body, 10, 2, "VmRSS     : %lu MB", vm_rss_mb);
+    mvwprintw(body, 11, 2, "Username  : %s",   truncated_user);
+    mvwprintw(body, 12, 2, "Command   : %s",  truncated_cmd);
+    mvwprintw(body, 13, 2, "Time      : %s",  time_buf);
 
     mvwprintw(body, getmaxy(body) - 2, 2, "[Press any key to return]");
     wrefresh(body);

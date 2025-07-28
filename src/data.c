@@ -91,7 +91,6 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
         return NULL;
     }
 
-    // Get system constants
     long clk_tck = sysconf(_SC_CLK_TCK);
 
     // Get boot time from /proc/stat
@@ -106,6 +105,26 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
         fclose(bootf);
     }
 
+    // Get total memory from /proc/meminfo
+    unsigned long total_memory_kb = 0;
+    FILE *meminfo = fopen("/proc/meminfo", "r");
+    if (meminfo) {
+        char line[256];
+        while (fgets(line, sizeof(line), meminfo)) {
+            if (sscanf(line, "MemTotal: %lu kB", &total_memory_kb) == 1)
+                break;
+        }
+        fclose(meminfo);
+    }
+
+    // Get system uptime
+    double system_uptime = 0.0;
+    FILE *uptimef = fopen("/proc/uptime", "r");
+    if (uptimef) {
+        fscanf(uptimef, "%lf", &system_uptime);
+        fclose(uptimef);
+    }
+
     while ((entry = readdir(proc)) != NULL) {
         if (!isdigit(entry->d_name[0])) continue;
 
@@ -117,7 +136,6 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
 
         char path[512];
 
-        // /proc/[pid]/status
         snprintf(path, sizeof(path), "/proc/%llu/status", pid);
         if (parse_key_value(path, "PPid:",   "PPid:\t%llu",  &p.ppid)   != 0) continue;
         if (parse_key_value(path, "Threads:","Threads:\t%d", &p.threads)!= 0) continue;
@@ -129,7 +147,6 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
         struct passwd *pw = getpwuid(p.uid);
         strncpy(p.username, pw ? pw->pw_name : "unknown", sizeof(p.username));
 
-        // /proc/[pid]/comm
         snprintf(path, sizeof(path), "/proc/%llu/comm", pid);
         FILE *f = fopen(path, "r");
         if (f && fgets(p.comm, sizeof(p.comm), f)) {
@@ -152,24 +169,29 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
             char dummy[1024], comm[256];
             int dummy_int;
 
-            fscanf(statf, "%d %s", &dummy_int, comm); // skip pid & comm
-
+            fscanf(statf, "%d %s", &dummy_int, comm); // pid & comm
             for (int i = 0; i < 11; i++) fscanf(statf, "%s", dummy); // skip to 14
             fscanf(statf, "%lu %lu", &utime, &stime);     // 14, 15
             fscanf(statf, "%s %s", dummy, dummy);         // 16, 17
             fscanf(statf, "%d %d", &prio, &nice);         // 18, 19
             for (int i = 0; i < 2; i++) fscanf(statf, "%s", dummy); // 20, 21
             fscanf(statf, "%llu", &starttime);            // 22
-
             fclose(statf);
 
             p.priority = prio;
             p.nice = nice;
             p.cpu_time_sec = (utime + stime) / (double)clk_tck;
             p.start_time = boot_time + (starttime / clk_tck);
+
+            // Calculate CPU usage
+            double elapsed_time = system_uptime - (p.start_time - boot_time);
+            p.cpu_usage = (elapsed_time > 0) ? (p.cpu_time_sec / elapsed_time) * 100.0 : 0.0;
         }
 
-        // Store
+        // Calculate memory usage percent
+        p.mem_usage_percent = (total_memory_kb > 0) ?
+            (p.vm_rss / (double)total_memory_kb) * 100.0 : 0.0;
+
         if (count >= capacity) {
             capacity *= 2;
             struct process_info *tmp = realloc(processes, capacity * sizeof(*tmp));
@@ -263,17 +285,34 @@ int logger(const char *filename) {
 
     // Print table headers
     fprintf(file,
-        "%-8s %-8s %-5s %-5s %-5s %-5s %-10s %-10s %-10s %-20s\n",
-        "PID", "PPID", "THR", "STAT", "PRI", "NI", "VmSize", "VmRSS", "USER", "CMD");
+        "%-8s %-8s %-5s %-5s %-5s %-5s %-10s %-10s %-10s %-25s %-8s %-8s %-8s\n",
+        "PID", "PPID", "THR", "STAT", "PRI", "NI", "VmSize", "VmRSS", "USER", "CMD", "CPU%", "MEM%", "TIME");
 
     // Print process data
     for (size_t i = 0; i < plist->count; ++i) {
         struct process_info *p = &plist->data[i];
+
+        // Format CPU time (MM:SS)
+        char time_buf[16];
+        time_t total_seconds = (time_t)p->cpu_time_sec;
+        snprintf(time_buf, sizeof(time_buf), "%02lu:%02lu",
+                 total_seconds / 60, total_seconds % 60);
+
+        // Convert KB to MB
+        unsigned long vm_size_mb = p->vm_size / 1024;
+        unsigned long vm_rss_mb  = p->vm_rss / 1024;
+
+        // Truncate user and cmd fields
+        char truncated_user[12];
+        char truncated_cmd[18];
+        snprintf(truncated_user, sizeof(truncated_user), "%-11.11s", p->username);
+        snprintf(truncated_cmd, sizeof(truncated_cmd), "%-17.17s", p->comm);
+
         fprintf(file,
-            "%-8llu %-8llu %-5d %-5s %-5d %-5d %-10lu %-10lu %-10s %-20s\n",
+            "%-8llu %-8llu %-5d %-5s %-5d %-5d %-10lu %-10lu %-10s %-20s %8.1f%% %8.1f%% %8s\n",
             p->pid, p->ppid, p->threads, p->state,
-            p->priority, p->nice, p->vm_size, p->vm_rss,
-            p->username, p->comm);
+            p->priority, p->nice, vm_size_mb, vm_rss_mb,
+            truncated_user, truncated_cmd, p->cpu_usage, p->mem_usage_percent, time_buf);
     }
 
     free(plist->data);

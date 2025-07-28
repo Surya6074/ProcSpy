@@ -24,12 +24,13 @@ void draw_header(WINDOW *header, int width, double cpu_usage, double mem_usage, 
  * 
  * @param body: Pointer to the ncurses WINDOW for the Body.
  * @param selected_index: selected Index.
- * @param scroll_offset: Scroll Offset.
+ * @param scroll_offset: vertical Scroll Offset.
+ * @param horizontal_offset: horizontal Scroll Offset.
  * @param pid: Get the Current Pid is Selected.
  *
  * This function renders the Body For listing all the Process.
  */
-void draw_body(WINDOW *body, int selected_index, int scroll_offset, unsigned long long *pid);
+void draw_body(WINDOW *body, int selected_index, int scroll_offset, int horizontal_offset, unsigned long long *pid);
 
 /**
  * @brief draw_footer - Draw the Footer section of the UI window.

@@ -93,6 +93,7 @@ int run_app(){
 
     int selected_index = 0;
     int scroll_offset = 0;
+    int horizontal_offset = 0;
 
     unsigned long long current_pid = 0;
     int detailed_view = 0;
@@ -111,6 +112,13 @@ int run_app(){
                 break;
             case KEY_DOWN:
                 selected_index++;
+                break;
+            case KEY_LEFT:
+                if (horizontal_offset >= 2)
+                    horizontal_offset -= 2;
+                break;
+            case KEY_RIGHT:
+                horizontal_offset += 2;
                 break;
             case 10:
                 detailed_view = 1;
@@ -169,7 +177,7 @@ int run_app(){
         }else{
             werase(body);
             box(body, 0, 0);
-            draw_body(body, selected_index, scroll_offset, &current_pid);
+            draw_body(body, selected_index, scroll_offset, horizontal_offset, &current_pid);
             wrefresh(body);
         }
 

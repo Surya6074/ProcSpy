@@ -1,0 +1,476 @@
+
+===== ProcSpy Snapshot - Mon Jul 28 12:50:30 2025 =====
+CPU Usage: 9.55%
+Memory Usage: 71.65%, Free: 28.35 MB
+
+PID      PPID     THR   STAT  PRI   NI    VmSize     VmRSS      USER       CMD                       CPU%     MEM%     TIME    
+1        0        1     S     20    0     22         13         root        systemd                   0.0%      0.3%    00:01
+409      1        1     S     20    0     110        21         root        systemd-journal           0.0%      0.6%    00:00
+455      1        3     S     20    0     148        1          root        vmware-vmblock-           0.0%      0.0%    00:00
+470      1        1     S     20    0     29         5          root        systemd-udevd             0.0%      0.1%    00:00
+631      1        1     S     20    0     8          1          root        haveged                   0.0%      0.0%    00:00
+635      1        4     S     20    0     301        6          root        accounts-daemon           0.0%      0.2%    00:00
+636      1        1     S     20    0     8          5          messagebus  dbus-daemon               0.0%      0.1%    00:00
+639      1        4     S     20    0     373        8          polkitd     polkitd                   0.0%      0.2%    00:00
+640      1        1     S     20    0     17         7          root        systemd-logind            0.0%      0.2%    00:00
+641      1        4     S     20    0     110        8          root        vmtoolsd                  0.1%      0.2%    00:04
+659      1        1     S     20    0     6          2          root        cron                      0.0%      0.1%    00:00
+695      1        4     S     20    0     327        16         root        NetworkManager            0.0%      0.4%    00:00
+748      1        4     S     20    0     309        7          root        ModemManager              0.0%      0.2%    00:00
+922      1        4     S     20    0     373        6          root        lightdm                   0.0%      0.2%    00:00
+941      922      2     S     20    0     449        164        root        Xorg                      4.3%      4.2%    02:11
+942      1        1     S     20    0     7          2          root        agetty                    0.0%      0.1%    00:00
+1035     1        3     S     21    1     20         2          rtkit       rtkit-daemon              0.0%      0.1%    00:00
+1114     922      4     S     20    0     167        7          root        lightdm                   0.0%      0.2%    00:00
+1122     1        1     S     20    0     21         11         venom       systemd                   0.0%      0.3%    00:00
+1123     1122     1     S     20    0     21         2          venom       (sd-pam)                  0.0%      0.1%    00:00
+1138     1122     1     S     20    0     8          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1139     1122     3     S     9     -11   107        11         venom       pipewire                  0.0%      0.3%    00:00
+1140     1122     2     S     20    0     82         4          venom       pipewire                  0.0%      0.1%    00:00
+1142     1122     6     S     9     -11   559        19         venom       wireplumber               0.0%      0.5%    00:00
+1143     1122     3     S     9     -11   167        9          venom       pipewire-pulse            0.0%      0.3%    00:00
+1144     1122     5     S     20    0     178        8          venom       gnome-keyring-d           0.0%      0.2%    00:00
+1166     1114     4     S     20    0     335        25         venom       xfce4-session             0.0%      0.6%    00:01
+1216     1166     1     S     20    0     10         0          venom       ssh-agent                 0.0%      0.0%    00:00
+1226     1122     5     S     20    0     374        6          venom       at-spi-bus-laun           0.0%      0.2%    00:00
+1233     1226     1     S     20    0     7          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1238     1122     4     S     20    0     300        6          venom       xfconfd                   0.0%      0.2%    00:00
+1244     1122     4     S     20    0     166        7          venom       at-spi2-registr           0.0%      0.2%    00:01
+1257     1122     1     S     20    0     79         2          venom       gpg-agent                 0.0%      0.1%    00:00
+1259     1166     13    S     20    0     1260       104        venom       xfwm4                     1.2%      2.7%    00:35
+1263     1122     4     S     20    0     304        6          venom       gvfsd                     0.0%      0.2%    00:00
+1269     1122     7     S     20    0     382        10         venom       gvfsd-fuse                0.0%      0.3%    00:00
+1294     1166     4     S     20    0     232        23         venom       xfsettingsd               0.0%      0.6%    00:01
+1298     1        4     S     20    0     309        7          root        upowerd                   0.0%      0.2%    00:00
+1305     1166     4     S     20    0     530        40         venom       xfce4-panel               0.1%      1.0%    00:03
+1310     1166     4     S     20    0     605        47         venom       Thunar                    0.1%      1.2%    00:02
+1316     1166     4     S     20    0     489        47         venom       xfdesktop                 0.1%      1.2%    00:01
+1317     1305     4     S     20    0     389        38         venom       panel-1-whisker           0.0%      1.0%    00:00
+1324     1305     4     S     20    0     376        35         venom       panel-13-cpugra           0.3%      0.9%    00:09
+1325     1305     4     S     20    0     338        22         venom       panel-14-systra           0.0%      0.6%    00:00
+1326     1305     4     S     20    0     340        22         venom       panel-15-genmon           0.2%      0.6%    00:04
+1327     1305     4     S     20    0     457        37         venom       panel-16-pulsea           0.0%      0.9%    00:00
+1328     1305     4     S     20    0     460        33         venom       panel-17-notifi           0.0%      0.9%    00:00
+1329     1305     4     S     20    0     388        33         venom       panel-18-power-           0.0%      0.8%    00:00
+1338     1305     4     S     20    0     388        36         venom       panel-22-action           0.0%      0.9%    00:00
+1364     1122     4     S     20    0     409        32         venom       xfce4-notifyd             0.0%      0.8%    00:00
+1389     1166     4     S     20    0     189        16         venom       xfce4-power-man           0.0%      0.4%    00:00
+1404     1166     5     S     20    0     265        22         venom       light-locker              0.0%      0.6%    00:00
+1405     1166     4     S     20    0     188        15         venom       polkit-gnome-au           0.0%      0.4%    00:00
+1420     1        3     S     20    0     146        36         venom       vmtoolsd                  0.2%      0.9%    00:04
+1464     1122     4     S     20    0     161        5          venom       dconf-service             0.0%      0.1%    00:00
+1489     1        2     S     20    0     14         2          venom       xcape                     0.0%      0.1%    00:00
+1497     1166     5     S     20    0     514        55         venom       blueman-applet            0.0%      1.4%    00:00
+1501     1166     5     S     20    0     610        41         venom       nm-applet                 0.0%      1.1%    00:00
+1502     1166     4     S     20    0     301        6          venom       agent                     0.0%      0.2%    00:00
+1522     1166     4     S     20    0     774        8          venom       xiccd                     0.0%      0.2%    00:00
+1543     1        4     S     20    0     309        13         colord      colord                    0.0%      0.4%    00:00
+1553     1        9     S     20    0     395        7          root        pcscd                     0.0%      0.2%    00:00
+1610     1122     5     S     20    0     415        14         venom       gvfs-udisks2-vo           0.0%      0.4%    00:00
+1615     1        6     S     20    0     396        14         root        udisksd                   0.0%      0.4%    00:00
+1637     1122     5     S     20    0     379        9          venom       gvfs-afc-volume           0.0%      0.3%    00:00
+1643     1122     4     S     20    0     300        6          venom       gvfs-mtp-volume           0.0%      0.2%    00:00
+1648     1122     4     S     20    0     301        6          venom       gvfs-gphoto2-vo           0.0%      0.2%    00:00
+1653     1122     4     S     20    0     300        6          venom       gvfs-goa-volume           0.0%      0.2%    00:00
+1678     1263     5     S     20    0     521        10         venom       gvfsd-trash               0.0%      0.3%    00:00
+1688     1122     4     S     20    0     164        6          venom       gvfsd-metadata            0.0%      0.2%    00:00
+1692     1122     1     S     20    0     45         6          venom       obexd                     0.0%      0.2%    00:00
+1890     1122     6     S     20    0     605        12         venom       xdg-desktop-por           0.0%      0.3%    00:00
+1895     1122     8     S     20    0     592        10         venom       xdg-document-po           0.0%      0.3%    00:00
+1899     1122     4     S     20    0     301        5          venom       xdg-permission-           0.0%      0.1%    00:00
+1906     1895     1     S     20    0     2          1          venom       fusermount3              18.6%      0.0%    09:13
+1913     1122     5     S     20    0     398        15         venom       xdg-desktop-por           0.0%      0.4%    00:00
+2011     1        46    S     20    0     1427178    138        venom       code                      1.0%      3.5%    00:31
+2043     2011     1     S     20    0     33007      37         venom       code                      0.0%      1.0%    00:00
+2044     2011     1     S     20    0     33007      39         venom       code                      0.0%      1.0%    00:00
+2052     2044     1     S     20    0     33007      6          venom       code                      0.0%      0.2%    00:00
+2111     1        3     S     20    0     32788      2          venom       chrome_crashpad           0.0%      0.1%    00:00
+2181     2043     14    S     20    0     33328      81         venom       code                      2.0%      2.1%    00:59
+2221     2011     7     S     20    0     33056      54         venom       code                      0.0%      1.4%    00:01
+2367     2052     12    S     20    0     1428603    391        venom       code                      8.6%     10.0%    04:13
+2426     1305     81    S     20    0     11223      402        venom       firefox-esr               6.2%     10.3%    03:04
+2458     2011     16    S     20    0     1426910    218        venom       code                      1.1%      5.6%    00:33
+2468     2011     16    S     20    0     1426908    107        venom       code                      0.1%      2.8%    00:04
+2469     2011     18    S     20    0     1426925    93         venom       code                      0.1%      2.4%    00:01
+2633     2426     5     S     0     20    212        34         venom       Socket Process            0.0%      0.9%    00:00
+2653     2426     20    S     0     20    2418       121        venom       Privileged Cont           0.0%      3.1%    00:00
+2742     2426     19    S     20    0     2381       87         venom       WebExtensions             0.0%      2.2%    00:00
+2830     2458     14    S     20    0     102        51         venom       cpptools                  6.6%      1.3%    03:14
+2832     2426     20    S     0     0     3960       853        venom       Isolated Web Co           0.0%     21.8%    00:01
+2833     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2875     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2966     2426     15    S     0     20    2350       65         venom       Web Content               0.0%      1.7%    00:00
+3455     2426     4     S     0     20    361        36         venom       RDD Process               0.0%      0.9%    00:00
+3457     2426     4     S     0     20    362        38         venom       Utility Process           0.0%      1.0%    00:00
+4752     1        8     S     20    0     4166       28         venom       cpptools-srv              0.3%      0.7%    00:08
+11595    1263     5     S     20    0     377        10         venom       gvfsd-network             0.0%      0.3%    00:00
+11643    1263     4     S     20    0     378        10         venom       gvfsd-dnssd               0.0%      0.3%    00:00
+18297    1        3     S     20    0     448        100        venom       qterminal                 0.6%      2.6%    00:07
+18308    18297    1     S     20    0     10         6          venom       zsh                       0.1%      0.2%    00:01
+23028    1        8     S     20    0     4165       29         venom       cpptools-srv              0.4%      0.7%    00:03
+27865    18308    33    S     20    0     1183821    164        venom       github-desktop            4.2%      4.2%    00:05
+27876    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27877    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27879    27877    1     S     20    0     33014      10         venom       github-desktop            0.0%      0.3%    00:00
+27926    27876    14    S     20    0     33329      117        venom       github-desktop            2.6%      3.0%    00:03
+27966    27865    7     S     20    0     33063      73         venom       github-desktop            1.2%      1.9%    00:01
+27992    27865    21    S     20    0     1187464    183        venom       github-desktop            8.6%      4.7%    00:11
+28927    18297    1     S     20    0     10         6          venom       zsh                       0.8%      0.2%    00:00
+29221    28927    1     R     20    0     3          2          venom       procspy                   0.5%      0.1%    00:00
+
+===== ProcSpy Snapshot - Mon Jul 28 12:50:32 2025 =====
+CPU Usage: 0.75%
+Memory Usage: 71.69%, Free: 28.31 MB
+
+PID      PPID     THR   STAT  PRI   NI    VmSize     VmRSS      USER       CMD                       CPU%     MEM%     TIME    
+1        0        1     S     20    0     22         13         root        systemd                   0.0%      0.3%    00:01
+409      1        1     S     20    0     110        21         root        systemd-journal           0.0%      0.6%    00:00
+455      1        3     S     20    0     148        1          root        vmware-vmblock-           0.0%      0.0%    00:00
+470      1        1     S     20    0     29         5          root        systemd-udevd             0.0%      0.1%    00:00
+631      1        1     S     20    0     8          1          root        haveged                   0.0%      0.0%    00:00
+635      1        4     S     20    0     301        6          root        accounts-daemon           0.0%      0.2%    00:00
+636      1        1     S     20    0     8          5          messagebus  dbus-daemon               0.0%      0.1%    00:00
+639      1        4     S     20    0     373        8          polkitd     polkitd                   0.0%      0.2%    00:00
+640      1        1     S     20    0     17         7          root        systemd-logind            0.0%      0.2%    00:00
+641      1        4     S     20    0     110        8          root        vmtoolsd                  0.1%      0.2%    00:04
+659      1        1     S     20    0     6          2          root        cron                      0.0%      0.1%    00:00
+695      1        4     S     20    0     327        16         root        NetworkManager            0.0%      0.4%    00:00
+748      1        4     S     20    0     309        7          root        ModemManager              0.0%      0.2%    00:00
+922      1        4     S     20    0     373        6          root        lightdm                   0.0%      0.2%    00:00
+941      922      2     S     20    0     449        164        root        Xorg                      4.3%      4.2%    02:11
+942      1        1     S     20    0     7          2          root        agetty                    0.0%      0.1%    00:00
+1035     1        3     S     21    1     20         2          rtkit       rtkit-daemon              0.0%      0.1%    00:00
+1114     922      4     S     20    0     167        7          root        lightdm                   0.0%      0.2%    00:00
+1122     1        1     S     20    0     21         11         venom       systemd                   0.0%      0.3%    00:00
+1123     1122     1     S     20    0     21         2          venom       (sd-pam)                  0.0%      0.1%    00:00
+1138     1122     1     S     20    0     8          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1139     1122     3     S     9     -11   107        11         venom       pipewire                  0.0%      0.3%    00:00
+1140     1122     2     S     20    0     82         4          venom       pipewire                  0.0%      0.1%    00:00
+1142     1122     6     S     9     -11   559        19         venom       wireplumber               0.0%      0.5%    00:00
+1143     1122     3     S     9     -11   167        9          venom       pipewire-pulse            0.0%      0.3%    00:00
+1144     1122     5     S     20    0     178        8          venom       gnome-keyring-d           0.0%      0.2%    00:00
+1166     1114     4     S     20    0     335        25         venom       xfce4-session             0.0%      0.6%    00:01
+1216     1166     1     S     20    0     10         0          venom       ssh-agent                 0.0%      0.0%    00:00
+1226     1122     5     S     20    0     374        6          venom       at-spi-bus-laun           0.0%      0.2%    00:00
+1233     1226     1     S     20    0     7          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1238     1122     4     S     20    0     300        6          venom       xfconfd                   0.0%      0.2%    00:00
+1244     1122     4     S     20    0     166        7          venom       at-spi2-registr           0.0%      0.2%    00:01
+1257     1122     1     S     20    0     79         2          venom       gpg-agent                 0.0%      0.1%    00:00
+1259     1166     13    S     20    0     1260       104        venom       xfwm4                     1.2%      2.7%    00:35
+1263     1122     4     S     20    0     304        6          venom       gvfsd                     0.0%      0.2%    00:00
+1269     1122     7     S     20    0     382        10         venom       gvfsd-fuse                0.0%      0.3%    00:00
+1294     1166     4     S     20    0     232        23         venom       xfsettingsd               0.0%      0.6%    00:01
+1298     1        4     S     20    0     309        7          root        upowerd                   0.0%      0.2%    00:00
+1305     1166     4     S     20    0     530        40         venom       xfce4-panel               0.1%      1.0%    00:03
+1310     1166     4     S     20    0     605        47         venom       Thunar                    0.1%      1.2%    00:02
+1316     1166     4     S     20    0     489        47         venom       xfdesktop                 0.1%      1.2%    00:01
+1317     1305     4     S     20    0     389        38         venom       panel-1-whisker           0.0%      1.0%    00:00
+1324     1305     4     S     20    0     376        35         venom       panel-13-cpugra           0.3%      0.9%    00:09
+1325     1305     4     S     20    0     338        22         venom       panel-14-systra           0.0%      0.6%    00:00
+1326     1305     4     S     20    0     340        22         venom       panel-15-genmon           0.2%      0.6%    00:04
+1327     1305     4     S     20    0     457        37         venom       panel-16-pulsea           0.0%      0.9%    00:00
+1328     1305     4     S     20    0     460        33         venom       panel-17-notifi           0.0%      0.9%    00:00
+1329     1305     4     S     20    0     388        33         venom       panel-18-power-           0.0%      0.8%    00:00
+1338     1305     4     S     20    0     388        36         venom       panel-22-action           0.0%      0.9%    00:00
+1364     1122     4     S     20    0     409        32         venom       xfce4-notifyd             0.0%      0.8%    00:00
+1389     1166     4     S     20    0     189        16         venom       xfce4-power-man           0.0%      0.4%    00:00
+1404     1166     5     S     20    0     265        22         venom       light-locker              0.0%      0.6%    00:00
+1405     1166     4     S     20    0     188        15         venom       polkit-gnome-au           0.0%      0.4%    00:00
+1420     1        3     S     20    0     146        36         venom       vmtoolsd                  0.2%      0.9%    00:04
+1464     1122     4     S     20    0     161        5          venom       dconf-service             0.0%      0.1%    00:00
+1489     1        2     S     20    0     14         2          venom       xcape                     0.0%      0.1%    00:00
+1497     1166     5     S     20    0     514        55         venom       blueman-applet            0.0%      1.4%    00:00
+1501     1166     5     S     20    0     610        41         venom       nm-applet                 0.0%      1.1%    00:00
+1502     1166     4     S     20    0     301        6          venom       agent                     0.0%      0.2%    00:00
+1522     1166     4     S     20    0     774        8          venom       xiccd                     0.0%      0.2%    00:00
+1543     1        4     S     20    0     309        13         colord      colord                    0.0%      0.4%    00:00
+1553     1        9     S     20    0     395        7          root        pcscd                     0.0%      0.2%    00:00
+1610     1122     5     S     20    0     415        14         venom       gvfs-udisks2-vo           0.0%      0.4%    00:00
+1615     1        6     S     20    0     396        14         root        udisksd                   0.0%      0.4%    00:00
+1637     1122     5     S     20    0     379        9          venom       gvfs-afc-volume           0.0%      0.3%    00:00
+1643     1122     4     S     20    0     300        6          venom       gvfs-mtp-volume           0.0%      0.2%    00:00
+1648     1122     4     S     20    0     301        6          venom       gvfs-gphoto2-vo           0.0%      0.2%    00:00
+1653     1122     4     S     20    0     300        6          venom       gvfs-goa-volume           0.0%      0.2%    00:00
+1678     1263     5     S     20    0     521        10         venom       gvfsd-trash               0.0%      0.3%    00:00
+1688     1122     4     S     20    0     164        6          venom       gvfsd-metadata            0.0%      0.2%    00:00
+1692     1122     1     S     20    0     45         6          venom       obexd                     0.0%      0.2%    00:00
+1890     1122     6     S     20    0     605        12         venom       xdg-desktop-por           0.0%      0.3%    00:00
+1895     1122     8     S     20    0     592        10         venom       xdg-document-po           0.0%      0.3%    00:00
+1899     1122     4     S     20    0     301        5          venom       xdg-permission-           0.0%      0.1%    00:00
+1906     1895     1     S     20    0     2          1          venom       fusermount3              18.6%      0.0%    09:13
+1913     1122     5     S     20    0     398        15         venom       xdg-desktop-por           0.0%      0.4%    00:00
+2011     1        46    S     20    0     1427178    138        venom       code                      1.0%      3.5%    00:31
+2043     2011     1     S     20    0     33007      37         venom       code                      0.0%      1.0%    00:00
+2044     2011     1     S     20    0     33007      39         venom       code                      0.0%      1.0%    00:00
+2052     2044     1     S     20    0     33007      6          venom       code                      0.0%      0.2%    00:00
+2111     1        3     S     20    0     32788      2          venom       chrome_crashpad           0.0%      0.1%    00:00
+2181     2043     14    S     20    0     33328      81         venom       code                      2.0%      2.1%    00:59
+2221     2011     7     S     20    0     33056      54         venom       code                      0.0%      1.4%    00:01
+2367     2052     12    S     20    0     1428603    391        venom       code                      8.6%     10.0%    04:13
+2426     1305     81    S     20    0     11223      402        venom       firefox-esr               6.2%     10.3%    03:04
+2458     2011     16    S     20    0     1426910    218        venom       code                      1.1%      5.6%    00:33
+2468     2011     16    S     20    0     1426908    107        venom       code                      0.1%      2.8%    00:04
+2469     2011     18    S     20    0     1426925    93         venom       code                      0.1%      2.4%    00:01
+2633     2426     5     S     0     20    212        34         venom       Socket Process            0.0%      0.9%    00:00
+2653     2426     20    S     0     20    2418       121        venom       Privileged Cont           0.0%      3.1%    00:00
+2742     2426     19    S     20    0     2381       87         venom       WebExtensions             0.0%      2.2%    00:00
+2830     2458     14    S     20    0     102        51         venom       cpptools                  6.6%      1.3%    03:14
+2832     2426     20    S     0     0     3960       853        venom       Isolated Web Co           0.0%     21.8%    00:01
+2833     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2875     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2966     2426     15    S     0     20    2350       65         venom       Web Content               0.0%      1.7%    00:00
+3455     2426     4     S     0     20    361        36         venom       RDD Process               0.0%      0.9%    00:00
+3457     2426     4     S     0     20    362        38         venom       Utility Process           0.0%      1.0%    00:00
+4752     1        8     S     20    0     4166       28         venom       cpptools-srv              0.3%      0.7%    00:08
+11595    1263     5     S     20    0     377        10         venom       gvfsd-network             0.0%      0.3%    00:00
+11643    1263     4     S     20    0     378        10         venom       gvfsd-dnssd               0.0%      0.3%    00:00
+18297    1        3     S     20    0     448        100        venom       qterminal                 0.6%      2.6%    00:07
+18308    18297    1     S     20    0     10         6          venom       zsh                       0.1%      0.2%    00:01
+23028    1        8     S     20    0     4165       29         venom       cpptools-srv              0.4%      0.7%    00:03
+27865    18308    33    S     20    0     1183821    164        venom       github-desktop            4.2%      4.2%    00:05
+27876    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27877    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27879    27877    1     S     20    0     33014      10         venom       github-desktop            0.0%      0.3%    00:00
+27926    27876    14    S     20    0     33329      117        venom       github-desktop            2.6%      3.0%    00:03
+27966    27865    7     S     20    0     33063      73         venom       github-desktop            1.2%      1.9%    00:01
+27992    27865    21    S     20    0     1187464    183        venom       github-desktop            8.5%      4.7%    00:11
+28927    18297    1     S     20    0     10         6          venom       zsh                       0.8%      0.2%    00:00
+29241    28927    1     R     20    0     3          2          venom       procspy                   0.6%      0.1%    00:00
+
+===== ProcSpy Snapshot - Mon Jul 28 12:50:34 2025 =====
+CPU Usage: 0.75%
+Memory Usage: 71.70%, Free: 28.30 MB
+
+PID      PPID     THR   STAT  PRI   NI    VmSize     VmRSS      USER       CMD                       CPU%     MEM%     TIME    
+1        0        1     S     20    0     22         13         root        systemd                   0.0%      0.3%    00:01
+409      1        1     S     20    0     110        21         root        systemd-journal           0.0%      0.6%    00:00
+455      1        3     S     20    0     148        1          root        vmware-vmblock-           0.0%      0.0%    00:00
+470      1        1     S     20    0     29         5          root        systemd-udevd             0.0%      0.1%    00:00
+631      1        1     S     20    0     8          1          root        haveged                   0.0%      0.0%    00:00
+635      1        4     S     20    0     301        6          root        accounts-daemon           0.0%      0.2%    00:00
+636      1        1     S     20    0     8          5          messagebus  dbus-daemon               0.0%      0.1%    00:00
+639      1        4     S     20    0     373        8          polkitd     polkitd                   0.0%      0.2%    00:00
+640      1        1     S     20    0     17         7          root        systemd-logind            0.0%      0.2%    00:00
+641      1        4     S     20    0     110        8          root        vmtoolsd                  0.1%      0.2%    00:04
+659      1        1     S     20    0     6          2          root        cron                      0.0%      0.1%    00:00
+695      1        4     S     20    0     327        16         root        NetworkManager            0.0%      0.4%    00:00
+748      1        4     S     20    0     309        7          root        ModemManager              0.0%      0.2%    00:00
+922      1        4     S     20    0     373        6          root        lightdm                   0.0%      0.2%    00:00
+941      922      2     S     20    0     449        164        root        Xorg                      4.3%      4.2%    02:11
+942      1        1     S     20    0     7          2          root        agetty                    0.0%      0.1%    00:00
+1035     1        3     S     21    1     20         2          rtkit       rtkit-daemon              0.0%      0.1%    00:00
+1114     922      4     S     20    0     167        7          root        lightdm                   0.0%      0.2%    00:00
+1122     1        1     S     20    0     21         11         venom       systemd                   0.0%      0.3%    00:00
+1123     1122     1     S     20    0     21         2          venom       (sd-pam)                  0.0%      0.1%    00:00
+1138     1122     1     S     20    0     8          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1139     1122     3     S     9     -11   107        11         venom       pipewire                  0.0%      0.3%    00:00
+1140     1122     2     S     20    0     82         4          venom       pipewire                  0.0%      0.1%    00:00
+1142     1122     6     S     9     -11   559        19         venom       wireplumber               0.0%      0.5%    00:00
+1143     1122     3     S     9     -11   167        9          venom       pipewire-pulse            0.0%      0.3%    00:00
+1144     1122     5     S     20    0     178        8          venom       gnome-keyring-d           0.0%      0.2%    00:00
+1166     1114     4     S     20    0     335        25         venom       xfce4-session             0.0%      0.6%    00:01
+1216     1166     1     S     20    0     10         0          venom       ssh-agent                 0.0%      0.0%    00:00
+1226     1122     5     S     20    0     374        6          venom       at-spi-bus-laun           0.0%      0.2%    00:00
+1233     1226     1     S     20    0     7          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1238     1122     4     S     20    0     300        6          venom       xfconfd                   0.0%      0.2%    00:00
+1244     1122     4     S     20    0     166        7          venom       at-spi2-registr           0.0%      0.2%    00:01
+1257     1122     1     S     20    0     79         2          venom       gpg-agent                 0.0%      0.1%    00:00
+1259     1166     13    S     20    0     1260       104        venom       xfwm4                     1.2%      2.7%    00:35
+1263     1122     4     S     20    0     304        6          venom       gvfsd                     0.0%      0.2%    00:00
+1269     1122     7     S     20    0     382        10         venom       gvfsd-fuse                0.0%      0.3%    00:00
+1294     1166     4     S     20    0     232        23         venom       xfsettingsd               0.0%      0.6%    00:01
+1298     1        4     S     20    0     309        7          root        upowerd                   0.0%      0.2%    00:00
+1305     1166     4     S     20    0     530        40         venom       xfce4-panel               0.1%      1.0%    00:03
+1310     1166     4     S     20    0     605        47         venom       Thunar                    0.1%      1.2%    00:02
+1316     1166     4     S     20    0     489        47         venom       xfdesktop                 0.1%      1.2%    00:01
+1317     1305     4     S     20    0     389        38         venom       panel-1-whisker           0.0%      1.0%    00:00
+1324     1305     4     S     20    0     376        35         venom       panel-13-cpugra           0.3%      0.9%    00:09
+1325     1305     4     S     20    0     338        22         venom       panel-14-systra           0.0%      0.6%    00:00
+1326     1305     4     S     20    0     340        22         venom       panel-15-genmon           0.2%      0.6%    00:04
+1327     1305     4     S     20    0     457        37         venom       panel-16-pulsea           0.0%      0.9%    00:00
+1328     1305     4     S     20    0     460        33         venom       panel-17-notifi           0.0%      0.9%    00:00
+1329     1305     4     S     20    0     388        33         venom       panel-18-power-           0.0%      0.8%    00:00
+1338     1305     4     S     20    0     388        36         venom       panel-22-action           0.0%      0.9%    00:00
+1364     1122     4     S     20    0     409        32         venom       xfce4-notifyd             0.0%      0.8%    00:00
+1389     1166     4     S     20    0     189        16         venom       xfce4-power-man           0.0%      0.4%    00:00
+1404     1166     5     S     20    0     265        22         venom       light-locker              0.0%      0.6%    00:00
+1405     1166     4     S     20    0     188        15         venom       polkit-gnome-au           0.0%      0.4%    00:00
+1420     1        3     S     20    0     146        36         venom       vmtoolsd                  0.2%      0.9%    00:04
+1464     1122     4     S     20    0     161        5          venom       dconf-service             0.0%      0.1%    00:00
+1489     1        2     S     20    0     14         2          venom       xcape                     0.0%      0.1%    00:00
+1497     1166     5     S     20    0     514        55         venom       blueman-applet            0.0%      1.4%    00:00
+1501     1166     5     S     20    0     610        41         venom       nm-applet                 0.0%      1.1%    00:00
+1502     1166     4     S     20    0     301        6          venom       agent                     0.0%      0.2%    00:00
+1522     1166     4     S     20    0     774        8          venom       xiccd                     0.0%      0.2%    00:00
+1543     1        4     S     20    0     309        13         colord      colord                    0.0%      0.4%    00:00
+1553     1        9     S     20    0     395        7          root        pcscd                     0.0%      0.2%    00:00
+1610     1122     5     S     20    0     415        14         venom       gvfs-udisks2-vo           0.0%      0.4%    00:00
+1615     1        6     S     20    0     396        14         root        udisksd                   0.0%      0.4%    00:00
+1637     1122     5     S     20    0     379        9          venom       gvfs-afc-volume           0.0%      0.3%    00:00
+1643     1122     4     S     20    0     300        6          venom       gvfs-mtp-volume           0.0%      0.2%    00:00
+1648     1122     4     S     20    0     301        6          venom       gvfs-gphoto2-vo           0.0%      0.2%    00:00
+1653     1122     4     S     20    0     300        6          venom       gvfs-goa-volume           0.0%      0.2%    00:00
+1678     1263     5     S     20    0     521        10         venom       gvfsd-trash               0.0%      0.3%    00:00
+1688     1122     4     S     20    0     164        6          venom       gvfsd-metadata            0.0%      0.2%    00:00
+1692     1122     1     S     20    0     45         6          venom       obexd                     0.0%      0.2%    00:00
+1890     1122     6     S     20    0     605        12         venom       xdg-desktop-por           0.0%      0.3%    00:00
+1895     1122     8     S     20    0     592        10         venom       xdg-document-po           0.0%      0.3%    00:00
+1899     1122     4     S     20    0     301        5          venom       xdg-permission-           0.0%      0.1%    00:00
+1906     1895     1     S     20    0     2          1          venom       fusermount3              18.6%      0.0%    09:13
+1913     1122     5     S     20    0     398        15         venom       xdg-desktop-por           0.0%      0.4%    00:00
+2011     1        46    S     20    0     1427178    138        venom       code                      1.0%      3.5%    00:31
+2043     2011     1     S     20    0     33007      37         venom       code                      0.0%      1.0%    00:00
+2044     2011     1     S     20    0     33007      39         venom       code                      0.0%      1.0%    00:00
+2052     2044     1     S     20    0     33007      6          venom       code                      0.0%      0.2%    00:00
+2111     1        3     S     20    0     32788      2          venom       chrome_crashpad           0.0%      0.1%    00:00
+2181     2043     14    S     20    0     33328      80         venom       code                      2.0%      2.1%    00:59
+2221     2011     7     S     20    0     33056      54         venom       code                      0.0%      1.4%    00:01
+2367     2052     12    S     20    0     1428603    391        venom       code                      8.6%     10.0%    04:13
+2426     1305     81    S     20    0     11223      402        venom       firefox-esr               6.2%     10.3%    03:04
+2458     2011     16    S     20    0     1426910    218        venom       code                      1.1%      5.6%    00:33
+2468     2011     16    S     20    0     1426908    107        venom       code                      0.1%      2.8%    00:04
+2469     2011     18    S     20    0     1426925    93         venom       code                      0.1%      2.4%    00:01
+2633     2426     5     S     0     20    212        34         venom       Socket Process            0.0%      0.9%    00:00
+2653     2426     20    S     0     20    2418       121        venom       Privileged Cont           0.0%      3.1%    00:00
+2742     2426     19    S     20    0     2381       87         venom       WebExtensions             0.0%      2.2%    00:00
+2830     2458     14    S     20    0     102        51         venom       cpptools                  6.6%      1.3%    03:14
+2832     2426     20    S     0     0     3960       853        venom       Isolated Web Co           0.0%     21.8%    00:01
+2833     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2875     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2966     2426     15    S     0     20    2350       65         venom       Web Content               0.0%      1.7%    00:00
+3455     2426     4     S     0     20    361        36         venom       RDD Process               0.0%      0.9%    00:00
+3457     2426     4     S     0     20    362        38         venom       Utility Process           0.0%      1.0%    00:00
+4752     1        8     S     20    0     4166       28         venom       cpptools-srv              0.3%      0.7%    00:08
+11595    1263     5     S     20    0     377        10         venom       gvfsd-network             0.0%      0.3%    00:00
+11643    1263     4     S     20    0     378        10         venom       gvfsd-dnssd               0.0%      0.3%    00:00
+18297    1        3     S     20    0     448        100        venom       qterminal                 0.6%      2.6%    00:07
+18308    18297    1     S     20    0     10         6          venom       zsh                       0.1%      0.2%    00:01
+23028    1        8     S     20    0     4165       29         venom       cpptools-srv              0.4%      0.7%    00:03
+27865    18308    33    S     20    0     1183821    164        venom       github-desktop            4.1%      4.2%    00:05
+27876    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27877    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27879    27877    1     S     20    0     33014      10         venom       github-desktop            0.0%      0.3%    00:00
+27926    27876    14    S     20    0     33329      117        venom       github-desktop            2.5%      3.0%    00:03
+27966    27865    7     S     20    0     33063      73         venom       github-desktop            1.2%      1.9%    00:01
+27992    27865    21    S     20    0     1187464    183        venom       github-desktop            8.3%      4.7%    00:11
+28927    18297    1     S     20    0     10         6          venom       zsh                       0.8%      0.2%    00:00
+29261    28927    1     R     20    0     3          2          venom       procspy                   0.6%      0.1%    00:00
+
+===== ProcSpy Snapshot - Mon Jul 28 12:50:36 2025 =====
+CPU Usage: 0.75%
+Memory Usage: 71.62%, Free: 28.38 MB
+
+PID      PPID     THR   STAT  PRI   NI    VmSize     VmRSS      USER       CMD                       CPU%     MEM%     TIME    
+1        0        1     S     20    0     22         13         root        systemd                   0.0%      0.3%    00:01
+409      1        1     S     20    0     110        21         root        systemd-journal           0.0%      0.6%    00:00
+455      1        3     S     20    0     148        1          root        vmware-vmblock-           0.0%      0.0%    00:00
+470      1        1     S     20    0     29         5          root        systemd-udevd             0.0%      0.1%    00:00
+631      1        1     S     20    0     8          1          root        haveged                   0.0%      0.0%    00:00
+635      1        4     S     20    0     301        6          root        accounts-daemon           0.0%      0.2%    00:00
+636      1        1     S     20    0     8          5          messagebus  dbus-daemon               0.0%      0.1%    00:00
+639      1        4     S     20    0     373        8          polkitd     polkitd                   0.0%      0.2%    00:00
+640      1        1     S     20    0     17         7          root        systemd-logind            0.0%      0.2%    00:00
+641      1        4     S     20    0     110        8          root        vmtoolsd                  0.1%      0.2%    00:04
+659      1        1     S     20    0     6          2          root        cron                      0.0%      0.1%    00:00
+695      1        4     S     20    0     327        16         root        NetworkManager            0.0%      0.4%    00:00
+748      1        4     S     20    0     309        7          root        ModemManager              0.0%      0.2%    00:00
+922      1        4     S     20    0     373        6          root        lightdm                   0.0%      0.2%    00:00
+941      922      2     S     20    0     449        164        root        Xorg                      4.3%      4.2%    02:11
+942      1        1     S     20    0     7          2          root        agetty                    0.0%      0.1%    00:00
+1035     1        3     S     21    1     20         2          rtkit       rtkit-daemon              0.0%      0.1%    00:00
+1114     922      4     S     20    0     167        7          root        lightdm                   0.0%      0.2%    00:00
+1122     1        1     S     20    0     21         11         venom       systemd                   0.0%      0.3%    00:00
+1123     1122     1     S     20    0     21         2          venom       (sd-pam)                  0.0%      0.1%    00:00
+1138     1122     1     S     20    0     8          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1139     1122     3     S     9     -11   107        11         venom       pipewire                  0.0%      0.3%    00:00
+1140     1122     2     S     20    0     82         4          venom       pipewire                  0.0%      0.1%    00:00
+1142     1122     6     S     9     -11   559        19         venom       wireplumber               0.0%      0.5%    00:00
+1143     1122     3     S     9     -11   167        9          venom       pipewire-pulse            0.0%      0.3%    00:00
+1144     1122     5     S     20    0     178        8          venom       gnome-keyring-d           0.0%      0.2%    00:00
+1166     1114     4     S     20    0     335        25         venom       xfce4-session             0.0%      0.6%    00:01
+1216     1166     1     S     20    0     10         0          venom       ssh-agent                 0.0%      0.0%    00:00
+1226     1122     5     S     20    0     374        6          venom       at-spi-bus-laun           0.0%      0.2%    00:00
+1233     1226     1     S     20    0     7          4          venom       dbus-daemon               0.0%      0.1%    00:00
+1238     1122     4     S     20    0     300        6          venom       xfconfd                   0.0%      0.2%    00:00
+1244     1122     4     S     20    0     166        7          venom       at-spi2-registr           0.0%      0.2%    00:01
+1257     1122     1     S     20    0     79         2          venom       gpg-agent                 0.0%      0.1%    00:00
+1259     1166     13    S     20    0     1260       104        venom       xfwm4                     1.2%      2.7%    00:35
+1263     1122     4     S     20    0     304        6          venom       gvfsd                     0.0%      0.2%    00:00
+1269     1122     7     S     20    0     382        10         venom       gvfsd-fuse                0.0%      0.3%    00:00
+1294     1166     4     S     20    0     232        23         venom       xfsettingsd               0.0%      0.6%    00:01
+1298     1        4     S     20    0     309        7          root        upowerd                   0.0%      0.2%    00:00
+1305     1166     4     S     20    0     530        40         venom       xfce4-panel               0.1%      1.0%    00:03
+1310     1166     4     S     20    0     605        47         venom       Thunar                    0.1%      1.2%    00:02
+1316     1166     4     S     20    0     489        47         venom       xfdesktop                 0.1%      1.2%    00:01
+1317     1305     4     S     20    0     389        38         venom       panel-1-whisker           0.0%      1.0%    00:00
+1324     1305     4     S     20    0     376        35         venom       panel-13-cpugra           0.3%      0.9%    00:09
+1325     1305     4     S     20    0     338        22         venom       panel-14-systra           0.0%      0.6%    00:00
+1326     1305     4     S     20    0     340        22         venom       panel-15-genmon           0.2%      0.6%    00:04
+1327     1305     4     S     20    0     457        37         venom       panel-16-pulsea           0.0%      0.9%    00:00
+1328     1305     4     S     20    0     460        33         venom       panel-17-notifi           0.0%      0.9%    00:00
+1329     1305     4     S     20    0     388        33         venom       panel-18-power-           0.0%      0.8%    00:00
+1338     1305     4     S     20    0     388        36         venom       panel-22-action           0.0%      0.9%    00:00
+1364     1122     4     S     20    0     409        32         venom       xfce4-notifyd             0.0%      0.8%    00:00
+1389     1166     4     S     20    0     189        16         venom       xfce4-power-man           0.0%      0.4%    00:00
+1404     1166     5     S     20    0     265        22         venom       light-locker              0.0%      0.6%    00:00
+1405     1166     4     S     20    0     188        15         venom       polkit-gnome-au           0.0%      0.4%    00:00
+1420     1        3     S     20    0     146        36         venom       vmtoolsd                  0.2%      0.9%    00:04
+1464     1122     4     S     20    0     161        5          venom       dconf-service             0.0%      0.1%    00:00
+1489     1        2     S     20    0     14         2          venom       xcape                     0.0%      0.1%    00:00
+1497     1166     5     S     20    0     514        55         venom       blueman-applet            0.0%      1.4%    00:00
+1501     1166     5     S     20    0     610        41         venom       nm-applet                 0.0%      1.1%    00:00
+1502     1166     4     S     20    0     301        6          venom       agent                     0.0%      0.2%    00:00
+1522     1166     4     S     20    0     774        8          venom       xiccd                     0.0%      0.2%    00:00
+1543     1        4     S     20    0     309        13         colord      colord                    0.0%      0.4%    00:00
+1553     1        9     S     20    0     395        7          root        pcscd                     0.0%      0.2%    00:00
+1610     1122     5     S     20    0     415        14         venom       gvfs-udisks2-vo           0.0%      0.4%    00:00
+1615     1        6     S     20    0     396        14         root        udisksd                   0.0%      0.4%    00:00
+1637     1122     5     S     20    0     379        9          venom       gvfs-afc-volume           0.0%      0.3%    00:00
+1643     1122     4     S     20    0     300        6          venom       gvfs-mtp-volume           0.0%      0.2%    00:00
+1648     1122     4     S     20    0     301        6          venom       gvfs-gphoto2-vo           0.0%      0.2%    00:00
+1653     1122     4     S     20    0     300        6          venom       gvfs-goa-volume           0.0%      0.2%    00:00
+1678     1263     5     S     20    0     521        10         venom       gvfsd-trash               0.0%      0.3%    00:00
+1688     1122     4     S     20    0     164        6          venom       gvfsd-metadata            0.0%      0.2%    00:00
+1692     1122     1     S     20    0     45         6          venom       obexd                     0.0%      0.2%    00:00
+1890     1122     6     S     20    0     605        12         venom       xdg-desktop-por           0.0%      0.3%    00:00
+1895     1122     8     S     20    0     592        10         venom       xdg-document-po           0.0%      0.3%    00:00
+1899     1122     4     S     20    0     301        5          venom       xdg-permission-           0.0%      0.1%    00:00
+1906     1895     1     S     20    0     2          1          venom       fusermount3              18.6%      0.0%    09:13
+1913     1122     5     S     20    0     398        15         venom       xdg-desktop-por           0.0%      0.4%    00:00
+2011     1        46    S     20    0     1427178    138        venom       code                      1.0%      3.5%    00:31
+2043     2011     1     S     20    0     33007      37         venom       code                      0.0%      1.0%    00:00
+2044     2011     1     S     20    0     33007      39         venom       code                      0.0%      1.0%    00:00
+2052     2044     1     S     20    0     33007      6          venom       code                      0.0%      0.2%    00:00
+2111     1        3     S     20    0     32788      2          venom       chrome_crashpad           0.0%      0.1%    00:00
+2181     2043     14    S     20    0     33327      79         venom       code                      2.0%      2.0%    00:59
+2221     2011     7     S     20    0     33056      54         venom       code                      0.0%      1.4%    00:01
+2367     2052     12    S     20    0     1428602    390        venom       code                      8.5%     10.0%    04:13
+2426     1305     81    S     20    0     11223      402        venom       firefox-esr               6.2%     10.3%    03:04
+2458     2011     16    S     20    0     1426910    218        venom       code                      1.1%      5.6%    00:33
+2468     2011     16    S     20    0     1426908    107        venom       code                      0.1%      2.8%    00:04
+2469     2011     18    S     20    0     1426925    93         venom       code                      0.1%      2.4%    00:01
+2633     2426     5     S     0     20    212        34         venom       Socket Process            0.0%      0.9%    00:00
+2653     2426     20    S     0     20    2418       121        venom       Privileged Cont           0.0%      3.1%    00:00
+2742     2426     19    S     20    0     2381       87         venom       WebExtensions             0.0%      2.2%    00:00
+2830     2458     14    S     20    0     94         43         venom       cpptools                  6.6%      1.1%    03:14
+2832     2426     20    S     0     0     3960       853        venom       Isolated Web Co           0.0%     21.8%    00:01
+2833     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2875     2426     15    S     0     20    2349       66         venom       Web Content               0.0%      1.7%    00:00
+2966     2426     15    S     0     20    2350       65         venom       Web Content               0.0%      1.7%    00:00
+3455     2426     4     S     0     20    361        36         venom       RDD Process               0.0%      0.9%    00:00
+3457     2426     4     S     0     20    362        38         venom       Utility Process           0.0%      1.0%    00:00
+4752     1        8     S     20    0     4166       28         venom       cpptools-srv              0.3%      0.7%    00:08
+11595    1263     5     S     20    0     377        10         venom       gvfsd-network             0.0%      0.3%    00:00
+11643    1263     4     S     20    0     378        10         venom       gvfsd-dnssd               0.0%      0.3%    00:00
+18297    1        3     S     20    0     448        100        venom       qterminal                 0.6%      2.6%    00:07
+18308    18297    1     S     20    0     10         6          venom       zsh                       0.1%      0.2%    00:01
+23028    1        8     S     20    0     4165       29         venom       cpptools-srv              0.4%      0.7%    00:03
+27865    18308    33    S     20    0     1183821    164        venom       github-desktop            4.1%      4.2%    00:05
+27876    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27877    27865    1     S     20    0     33014      50         venom       github-desktop            0.0%      1.3%    00:00
+27879    27877    1     S     20    0     33014      10         venom       github-desktop            0.0%      0.3%    00:00
+27926    27876    14    S     20    0     33329      117        venom       github-desktop            2.5%      3.0%    00:03
+27966    27865    7     S     20    0     33063      73         venom       github-desktop            1.2%      1.9%    00:01
+27992    27865    21    S     20    0     1187464    183        venom       github-desktop            8.2%      4.7%    00:11
+28927    18297    1     S     20    0     10         6          venom       zsh                       0.9%      0.2%    00:00
+29273    28927    1     R     20    0     3          2          venom       procspy                   1.6%      0.1%    00:00

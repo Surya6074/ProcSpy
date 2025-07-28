@@ -84,6 +84,8 @@ struct process_info {
     int nice;
     time_t start_time;
     double cpu_time_sec;
+    double cpu_usage;
+    double mem_usage_percent;  
 };
 
 /**
