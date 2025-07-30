@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude
-SRC = src/main.c src/parser.c src/utils/utils.c src/data.c src/ui.c
+SRC = src/main.c src/parser.c src/utils/utils.c src/data.c src/ui.c src/server.c
 OUT = procspy
 LIBS = -lncurses
 

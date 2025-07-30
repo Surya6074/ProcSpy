@@ -230,7 +230,7 @@ struct process_list *list_all_process(unsigned long long pid_filter) {
 
 void help(void) {
     printf("\n\033[1;36m┌───────────────────────────────────────────────────────────┐\033[0m\n");
-    printf(  "\033[1;36m│                  🔍 ProcSpy - Process Monitor              │\033[0m\n");
+    printf(  "\033[1;36m│                  🔍 ProcSpy - Process Monitor             │\033[0m\n");
     printf(  "\033[1;36m└───────────────────────────────────────────────────────────┘\033[0m\n");
     printf("  A terminal-based, real-time Linux process viewer with\n");
     printf("  sortable columns and detailed resource statistics.\n");

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ProcSpy - System Monitor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>🔍 ProcSpy</h1>
+        <p>Linux Realtime Process Inspector</p>
+    </header>
+
+    <main>
+        <section id="system-info">
+            <div class="card"><span>CPU Usage</span><strong id="cpu">--%</strong></div>
+            <div class="card"><span>Memory Usage</span><strong id="memory">--%</strong></div>
+            <div class="card"><span>Total Processes</span><strong id="total">--</strong></div>
+        </section>
+
+        <section>
+            <h2>Process List</h2>
+            <div class="table-container">
+                <table id="process-table">
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>PPID</th>
+                            <th>Threads</th>
+                            <th>Status</th>
+                            <th>VmSize</th>
+                            <th>VmRSS</th>
+                            <th>Command</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- datas -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 ProcSpy by Venom | Built with C 🧠</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

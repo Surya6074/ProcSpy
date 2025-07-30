@@ -2,6 +2,7 @@
 #include "ui.h"
 #include <signal.h>
 #include <time.h>
+#include "server.h"
 
 volatile sig_atomic_t resized = 0;
 
@@ -18,6 +19,9 @@ int main(int argc, char *argv[]){
             return 0;
         } else if (strcmp(argv[1], "--version") == 0) {
             version();
+            return 0;
+        } else if (strcmp(argv[1], "--web") == 0) {
+            init_web_server();
             return 0;
         } else if (strcmp(argv[1], "--log") == 0) {
             const char *logfile = "procspy.log";
