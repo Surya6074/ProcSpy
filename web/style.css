@@ -109,3 +109,7 @@ footer {
     font-size: 0.9rem;
     background: #1b1b1b;
 }
+
+.align-right{
+    text-align: right;
+}

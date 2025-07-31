@@ -15,7 +15,8 @@
     <main>
         <section id="system-info">
             <div class="card"><span>CPU Usage</span><strong id="cpu">--%</strong></div>
-            <div class="card"><span>Memory Usage</span><strong id="memory">--%</strong></div>
+            <div class="card"><span>Memory Usage</span><strong id="memory_usage">--%</strong></div>
+            <div class="card"><span>Memory Free</span><strong id="memory_free">--%</strong></div>
             <div class="card"><span>Total Processes</span><strong id="total">--</strong></div>
         </section>
 
@@ -28,10 +29,15 @@
                             <th>PID</th>
                             <th>PPID</th>
                             <th>Threads</th>
-                            <th>Status</th>
+                            <th>State</th>
+                            <th>Priority</th>
                             <th>VmSize</th>
                             <th>VmRSS</th>
+                            <th>User</th>
                             <th>Command</th>
+                            <th>CPU %(1c)</th>
+                            <th>MEM %</th>
+                            <th>Time</th>
                         </tr>
                     </thead>
                     <tbody>

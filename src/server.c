@@ -1,4 +1,5 @@
 #include "server.h"
+#include "data.h"
 
 const char *get_content_type(const char *path){
     if(strstr(path, ".html")) return "text/html";
@@ -59,9 +60,26 @@ int init_web_server(){
         if (strcmp(path, "/") == 0)
             strcpy(path, "/index.html"); 
 
+        if (strcmp(path, "/data") == 0) {
+            const char *json_response = web_response_json();
+
+            char response[BUFFER_SIZE_RESPONSE];
+            int response_length = snprintf(response, sizeof(response),
+                "HTTP/1.1 200 OK\r\n"
+                "Content-Type: application/json\r\n"
+                "Content-Length: %zu\r\n"
+                "\r\n"
+                "%s",
+                strlen(json_response), json_response);
+
+            send(new_socket, response, response_length, 0);
+            close(new_socket);
+            continue; // Skip further file handling
+        }
+
         char full_path[1024];
         snprintf(full_path, sizeof(full_path), "%s%.*s", ROOT_DIR, (int)(sizeof(full_path) - strlen(ROOT_DIR) - 1), path);
-        printf("full path %s",full_path);
+    
         // Try to open the file
         int fd = open(full_path, O_RDONLY);
 

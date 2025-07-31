@@ -131,4 +131,8 @@ int compare_by_name(const void *a, const void *b);
 
 void sort_process_list(struct process_list *plist, SortMode mode);
 
+char *web_response_json();
+
+#define BUFFER_SIZE_RESPONSE 512 * 1024  
+
 #endif

@@ -242,6 +242,7 @@ void help(void) {
     printf("  --help        Show this help screen and exit.\n");
     printf("  --version     Display application version.\n");
     printf("  --log [file]  Save current process list to a file (default: procspy.log).\n");
+    printf("  --web         Web Based Process viewer\n");
 
     printf("\n\033[1;36m📋 Process Table Columns:\033[0m\n");
     printf("  %-10s : %s\n", "PID",     "Process ID.");
@@ -398,4 +399,74 @@ void sort_process_list(struct process_list *plist, SortMode mode) {
             qsort(plist->data, plist->count, sizeof(struct process_info), compare_by_pid);
             break;
     }
+}
+
+
+char *web_response_json() {
+    static char json[BUFFER_SIZE_RESPONSE];
+    char *ptr = json;
+
+    struct cpu_stats before = get_cpu_stats();
+    sleep(1);
+    struct cpu_stats after = get_cpu_stats();
+    double cpu_usage = usage_percent(&before, &after);
+
+    struct mem_stats mem = get_memory_usage_stats();
+
+    ptr += sprintf(ptr,
+        "{\n"
+        "  \"usages\": {\n"
+        "    \"cpu\": %.2f,\n"
+        "    \"memory\": {\n"
+        "      \"usage\": %.2f,\n"
+        "      \"free_mb\": %.2f\n"
+        "    }\n"
+        "  },\n"
+        "  \"processes\": [\n",
+        cpu_usage, mem.usage, mem.free);
+
+    struct process_list *plist = list_all_process(0);
+    if (!plist || plist->count == 0) {
+        ptr += sprintf(ptr, "  ]\n}\n");
+        return json;
+    }
+
+    for (size_t i = 0; i < plist->count; ++i) {
+        struct process_info *p = &plist->data[i];
+
+        char time_buf[16];
+        time_t total_seconds = (time_t)p->cpu_time_sec;
+        snprintf(time_buf, sizeof(time_buf), "%02lu:%02lu",
+                 total_seconds / 60, total_seconds % 60);
+
+        ptr += sprintf(ptr,
+            "    {\n"
+            "      \"pid\": %llu,\n"
+            "      \"ppid\": %llu,\n"
+            "      \"threads\": %d,\n"
+            "      \"state\": \"%s\",\n"
+            "      \"priority\": %d,\n"
+            "      \"nice\": %d,\n"
+            "      \"vmsize_mb\": %lu,\n"
+            "      \"vmrss_mb\": %lu,\n"
+            "      \"user\": \"%s\",\n"
+            "      \"command\": \"%s\",\n"
+            "      \"cpu_usage\": %.1f,\n"
+            "      \"mem_usage\": %.1f,\n"
+            "      \"time\": \"%s\"\n"
+            "    }%s\n",
+            p->pid, p->ppid, p->threads, p->state,
+            p->priority, p->nice,
+            p->vm_size / 1024, p->vm_rss / 1024,
+            p->username, p->comm,
+            p->cpu_usage, p->mem_usage_percent, time_buf,
+            (i < plist->count - 1) ? "," : "");
+    }
+
+    ptr += sprintf(ptr, "  ]\n}\n");
+
+    free(plist->data);
+    free(plist);
+
+    return json;
 }
